@@ -21,5 +21,8 @@ def Shutdown():
     sys.exit()
     os._exit()
 
-def DrawMenuButton(window, width, height, button_number, colour):
-    return FuncAlex.DrawMenuButton(window, width, height, button_number, colour)
+def DrawMenuButton(window, width, height, button_number, image):
+    return FuncAlex.DrawMenuButton(window, width, height, button_number, image)
+
+def DrawMenuBackground(window, width, height, image):
+    FuncAlex.DrawMenuBackground(window, width, height, image)

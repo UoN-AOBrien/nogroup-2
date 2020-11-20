@@ -11,12 +11,14 @@ import game
 import utils.engine as eng
 
 # Global variables
-WIDTH = 600
-HEIGHT = 400
+WIDTH = 800
+HEIGHT = 600
 FRAMERATE = 60
 
 # Load menu assets
-""" LOAD MENU ASSETS HERE """
+play_img = pygame.image.load('images/menu/play.png')
+quit_img = pygame.image.load('images/menu/quit.png')
+background_img = pygame.image.load('images/menu/background.png')
 
 # Initialise modules
 pygame.init()
@@ -32,11 +34,12 @@ pygame.display.flip()
 # Application Loop
 while True:
     pygame.display.set_caption("Main Menu") # Set screen title
-    screen.fill(pygame.Color("Black"))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    eng.DrawMenuBackground(screen, WIDTH, HEIGHT, background_img)
     
     # Draw main menu
-    play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 1, pygame.Color("White"))
-    quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, pygame.Color("Red"))
+    play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 2, play_img)
+    quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, quit_img)
     
     #  Event loop
     mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
