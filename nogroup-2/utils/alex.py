@@ -6,14 +6,18 @@ Created on Fri Nov 20 13:49:06 2020
 """
 # Import libraries and modules
 import pygame
+import os
 
 # Import individual contribuutions
 import utils.harri as FuncHarri
 import utils.hongyuan as FuncHongyuan
 import utils.peggy as FuncPeggy
 
+# Center window function - os function call 
+def CenterWindow():
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-
+# Draw menu buttons - center of window (stackabele)
 def DrawMenuButton(window, width, height, button_number, image):
     XDIVISOR = 2
     YDIVISOR = 11
@@ -30,7 +34,8 @@ def DrawMenuButton(window, width, height, button_number, image):
     
     return buttonRect
 
-def DrawMenuBackground(window, width, height, image):
+# Draw static background - menu screens etc
+def DrawStaticBackground(window, width, height, image):
     backgroundRect = pygame.Rect(0, 0, width, height)
     image = pygame.transform.scale(image, (width, height))
     window.blit(image, backgroundRect)

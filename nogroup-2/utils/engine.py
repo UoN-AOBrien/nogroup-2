@@ -16,13 +16,20 @@ import utils.hongyuan as FuncHongyuan
 import utils.peggy as FuncPeggy
 
 # Classes and Functions
+
+# Shutdown application
 def Shutdown():
     pygame.quit()
     sys.exit()
     os._exit()
+    
+def CenterWindow():
+    FuncAlex.CenterWindow()
 
+# Draw menu buttons - centered on screen (stackable)
 def DrawMenuButton(window, width, height, button_number, image):
     return FuncAlex.DrawMenuButton(window, width, height, button_number, image)
 
-def DrawMenuBackground(window, width, height, image):
-    FuncAlex.DrawMenuBackground(window, width, height, image)
+# Draw static background - useful for menu screens etc
+def DrawStaticBackground(window, width, height, image):
+    FuncAlex.DrawStaticBackground(window, width, height, image)

@@ -23,6 +23,9 @@ background_img = pygame.image.load('images/menu/background.png')
 # Initialise modules
 pygame.init()
 
+# Center screens
+eng.CenterWindow()
+
 # Initialise clock
 clock = pygame.time.Clock()
 
@@ -34,10 +37,10 @@ pygame.display.flip()
 # Application Loop
 while True:
     pygame.display.set_caption("Main Menu") # Set screen title
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    eng.DrawMenuBackground(screen, WIDTH, HEIGHT, background_img)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT)) # Set screen mode
+    eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
     
-    # Draw main menu
+    # Draw main menu buttons
     play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 2, play_img)
     quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, quit_img)
     

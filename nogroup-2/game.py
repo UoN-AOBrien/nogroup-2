@@ -16,7 +16,7 @@ FRAMERATE = 60
 # Load assests
 """ LOAD GAME ASSETS HERE """
 
-def Game(screen):
+def Game(screen):   
     # Initialise clock
     clock = pygame.time.Clock()
 
@@ -45,6 +45,10 @@ def Game(screen):
                 if event.button == 3:
                     right_click = True
                     
+            
+            
+                    
+            
             # Refresh screen
             clock.tick(FRAMERATE)
             pygame.display.flip()
