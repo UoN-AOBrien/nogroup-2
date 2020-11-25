@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 
     def create_bullet(self):
         return Bullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]) #return bullet and has the position of wherever the mouse is
-
+#
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
