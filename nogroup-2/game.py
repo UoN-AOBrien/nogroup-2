@@ -7,6 +7,7 @@ Created on Tue Nov 17 12:14:29 2020
 
 import pygame
 import utils.engine as eng
+import random
 
 # Global variables
 WIDTH = 1600
@@ -14,9 +15,10 @@ HEIGHT = 900
 FRAMERATE = 60
 
 # Load assests
-""" LOAD GAME ASSETS HERE """
+backgrounds = [pygame.image.load('images/game/background/background1.png'),
+              pygame.image.load('images/game/background/background2.png')]
 
-def Game(screen):   
+def Game(screen):       
     # Initialise clock
     clock = pygame.time.Clock()
 
@@ -26,6 +28,14 @@ def Game(screen):
     pygame.display.flip()
     
     pygame.display.set_caption("Game") # Set screen title
+    
+    scroll_bg = [0, WIDTH]
+    bg=[0, 0]
+    for i in range(2):
+        index = random.randint(0, len(backgrounds)-1)
+        bg[i] = backgrounds[index]
+    
+    speed = 2
     
     game_running = True
     while game_running:
@@ -45,10 +55,19 @@ def Game(screen):
                 if event.button == 3:
                     right_click = True
                     
-            
-            
-                    
-            
-            # Refresh screen
-            clock.tick(FRAMERATE)
-            pygame.display.flip()
+        
+        """ SCROLL BACKGROUND """
+        for i in range(2):
+            scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], scroll_bg[i])
+        
+        # reset loop
+        if scroll_bg[1] < 0:
+            scroll_bg = [0, WIDTH]
+            bg[0] = bg[1]
+            index = random.randint(0, len(backgrounds)-1)
+            bg[1] = backgrounds[index]
+
+        
+        # Refresh screen
+        clock.tick(FRAMERATE)
+        pygame.display.flip()

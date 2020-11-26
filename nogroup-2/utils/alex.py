@@ -7,11 +7,8 @@ Created on Fri Nov 20 13:49:06 2020
 # Import libraries and modules
 import pygame
 import os
+import random
 
-# Import individual contribuutions
-import utils.harri as FuncHarri
-import utils.hongyuan as FuncHongyuan
-import utils.peggy as FuncPeggy
 
 # Center window function - os function call 
 def CenterWindow():
@@ -40,3 +37,9 @@ def DrawStaticBackground(window, width, height, image):
     image = pygame.transform.scale(image, (width, height))
     window.blit(image, backgroundRect)
 
+# Draw infinite scroll
+def DrawScrollBackground(window, width, speed, image, x):
+    x -= speed
+    window.blit(image, (x, 0))
+    return x
+        

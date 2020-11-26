@@ -33,3 +33,8 @@ def DrawMenuButton(window, width, height, button_number, image):
 # Draw static background - useful for menu screens etc
 def DrawStaticBackground(window, width, height, image):
     FuncAlex.DrawStaticBackground(window, width, height, image)
+
+    
+# Draw infinite scroll
+def DrawScrollBackground(window, width, speed, image, x):
+    return FuncAlex.DrawScrollBackground(window, width, speed, image, x)

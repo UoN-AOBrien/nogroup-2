@@ -17,6 +17,7 @@ FRAMERATE = 60
 
 # Load menu assets
 play_img = pygame.image.load('images/menu/play.png')
+options_img = pygame.image.load('images/menu/quit.png')  # CHANGE TO OPTIONS.PNG
 quit_img = pygame.image.load('images/menu/quit.png')
 background_img = pygame.image.load('images/menu/background.png')
 
@@ -33,7 +34,7 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 screen.fill(pygame.Color("Black")) 
 pygame.display.flip()
-      
+
 # Application Loop
 while True:
     pygame.display.set_caption("Main Menu") # Set screen title
@@ -41,8 +42,9 @@ while True:
     eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
     
     # Draw main menu buttons
-    play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 2, play_img)
-    quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, quit_img)
+    play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
+    options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
+    quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, quit_img)
     
     #  Event loop
     mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
@@ -58,6 +60,8 @@ while True:
     if left_click:
         if play_button.collidepoint(mouse_xpos, mouse_ypos):
             game.Game(screen)
+        if options_button.collidepoint(mouse_xpos, mouse_ypos):
+            pass
         if quit_button.collidepoint(mouse_xpos, mouse_ypos):
             eng.Shutdown()
     
