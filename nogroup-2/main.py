@@ -17,11 +17,11 @@ FRAMERATE = 60
 
 # Load menu assets
 play_img = pygame.image.load('images/menu/play.png')
-options_img = pygame.image.load('images/menu/quit.png')  # CHANGE TO OPTIONS.PNG
+options_img = pygame.image.load('images/menu/options.png')
 quit_img = pygame.image.load('images/menu/quit.png')
 background_img = pygame.image.load('images/menu/background.png')
 
-cheatsheet = pygame.image.load('images/menu/background.png')
+cheatsheet = pygame.image.load('images/cheatsheet.png')
 
 
 # Initialise modules
@@ -62,8 +62,7 @@ while True:
     # Menu button press
     if left_click:
         if play_button.collidepoint(mouse_xpos, mouse_ypos):
-            screen = pygame.display.set_mode((WIDTH, HEIGHT))
-            screen.fill(pygame.Color("Black")) 
+            eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet)
             pygame.display.set_caption("CheatSheet")
             pygame.display.flip()
             
