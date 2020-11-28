@@ -21,6 +21,9 @@ options_img = pygame.image.load('images/menu/quit.png')  # CHANGE TO OPTIONS.PNG
 quit_img = pygame.image.load('images/menu/quit.png')
 background_img = pygame.image.load('images/menu/background.png')
 
+cheatsheet = pygame.image.load('images/menu/background.png')
+
+
 # Initialise modules
 pygame.init()
 
@@ -59,7 +62,25 @@ while True:
     # Menu button press
     if left_click:
         if play_button.collidepoint(mouse_xpos, mouse_ypos):
-            game.Game(screen)
+            screen = pygame.display.set_mode((WIDTH, HEIGHT))
+            screen.fill(pygame.Color("Black")) 
+            pygame.display.set_caption("CheatSheet")
+            pygame.display.flip()
+            
+            
+            left_click2 = False
+        
+            running = True
+            while running:
+              for event in pygame.event.get():
+                  if event.type == pygame.QUIT: # Window close event
+                          eng.Shutdown()
+                  if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
+                      if event.button == 1:
+                          left_click2 = True   
+                      if left_click2:
+                          game.Game(screen)
+            
         if options_button.collidepoint(mouse_xpos, mouse_ypos):
             pass
         if quit_button.collidepoint(mouse_xpos, mouse_ypos):

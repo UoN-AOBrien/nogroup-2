@@ -38,3 +38,5 @@ def DrawStaticBackground(window, width, height, image):
 # Draw infinite scroll
 def DrawScrollBackground(window, width, speed, image, x):
     return FuncAlex.DrawScrollBackground(window, width, speed, image, x)
+
+

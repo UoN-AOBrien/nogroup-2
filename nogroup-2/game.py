@@ -18,6 +18,9 @@ FRAMERATE = 60
 backgrounds = [pygame.image.load('images/game/background/background1.png'),
               pygame.image.load('images/game/background/background2.png')]
 
+
+
+
 def Game(screen):       
     # Initialise clock
     clock = pygame.time.Clock()
@@ -28,6 +31,7 @@ def Game(screen):
     pygame.display.flip()
     
     pygame.display.set_caption("Game") # Set screen title
+    
     
     scroll_bg = [0, WIDTH]
     bg=[0, 0]
