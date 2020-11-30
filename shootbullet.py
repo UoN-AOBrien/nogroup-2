@@ -1,9 +1,9 @@
-import pygame, sys
+import pygame, sys, random
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((100,100))#100pixels wide and high
+        self.image = pygame.Surface((50,50))#50pixels wide and high
         self.image.fill((255,255,255))
         self.rect = self.image.get_rect(center=(screen_width/2,screen_height/2))
 
@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 
     def create_bullet(self):
         return Bullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]) #return bullet and has the position of wherever the mouse is
-#
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
@@ -70,15 +70,27 @@ mob_number = 5
 for i in range(mob_number):#no of mobs
     m = Mob()
     mob.add(m)
-    #player.add(m)#might take this out
+    
 
-while True:
+running = True
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN: #when you click the mouse
             bullet_group.add(player.create_bullet())
+            
+     #check to see if a bullet hits a mob
+    hits = pygame.sprite.groupcollide(mob, bullet_group, True, True)#bullet needs to run into mob and vice versa so 2 Trues
+    for hit in hits: #this loop adds a mob if a mob dies
+        m = Mob()
+        mob.add(m)
+
+    #check to see if a mob hits player
+    hits = pygame.sprite.spritecollide(player, mob, False) #hit list if player was hit
+    if hits:
+        running = False #if player is hit by mob, loop stops and game exits
 
     screen.fill((30,30,30))
     mob.update()
@@ -90,4 +102,3 @@ while True:
     pygame.display.flip()
     clock.tick(120)
 
-#rectangles require more work and maintennce
