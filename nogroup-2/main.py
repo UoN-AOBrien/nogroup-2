@@ -17,11 +17,11 @@ FRAMERATE = 60
 
 # Load menu assets
 play_img = pygame.image.load('images/menu/play.png')
-options_img = pygame.image.load('images/menu/quit.png')  # CHANGE TO OPTIONS.PNG
+options_img = pygame.image.load('images/menu/options.png')
 quit_img = pygame.image.load('images/menu/quit.png')
 background_img = pygame.image.load('images/menu/background.png')
 
-cheatsheet = pygame.image.load('images/menu/background.png')
+cheatsheet = pygame.image.load('images/cheatsheet.png')
 
 bgmusic_img = pygame.image.load('images/menu/options/bgmusic.png')
 bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.png')
@@ -116,8 +116,7 @@ while True:
                             pygame.mixer.music.play(-1)
                             bg_on = True
                         
-    
-#    refresh screen                
+
     clock.tick(FRAMERATE)
     pygame.display.flip()   
             

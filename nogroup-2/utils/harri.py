@@ -38,6 +38,24 @@ class Bullet(pygame.sprite.Sprite):
 
         if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
             self.kill() #bullet will destroy itself to save memory and improve performance
+            
+class Mob(pygame.sprite.Sprite): #spawn enemies
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((30,40))
+        self.image.fill((0,255,0))
+        self.rect = self.image.get_rect()
+        self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
+        self.rect.x = random.randrange(700, screen_width)
+        self.speedx = random.randrange(1, 8)# randomise their speed
+
+    def update(self):
+        self.rect.x -= self.speedx #mobs go in left direction
+        if self.rect.x <= 0:
+            self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
+            self.rect.x = random.randrange(700, screen_width)  # spawn in a random place to the right of the screen
+            self.speedx = random.randrange(1, 8)  # randomise their speed
+
            
 
    
