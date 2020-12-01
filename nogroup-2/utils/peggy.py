@@ -14,8 +14,8 @@ import utils.harri as FuncHarri
 import utils.hongyuan as FuncHongyuan
 
 
-
-    
+def bgmusic(bg_on):
+    pass
     
         
     
