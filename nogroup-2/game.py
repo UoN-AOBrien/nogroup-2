@@ -33,6 +33,8 @@ def Game(screen):
     pygame.display.set_caption("Game") # Set screen title
     
     
+    
+    
     scroll_bg = [0, WIDTH]
     bg=[0, 0]
     for i in range(2):

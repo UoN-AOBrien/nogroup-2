@@ -23,6 +23,10 @@ background_img = pygame.image.load('images/menu/background.png')
 
 cheatsheet = pygame.image.load('images/cheatsheet.png')
 
+bgmusic_img = pygame.image.load('images/menu/options/bgmusic.png')
+bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.png')
+
+
 
 # Initialise modules
 pygame.init()
@@ -38,53 +42,82 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 screen.fill(pygame.Color("Black")) 
 pygame.display.flip()
 
+bg_on = True
+pygame.mixer.music.load('sound/example.mp3')
+pygame.mixer.music.play(-1)
+
+screen_flag = "main_menu"
+
+    
+
 # Application Loop
 while True:
-    pygame.display.set_caption("Main Menu") # Set screen title
+   
     screen = pygame.display.set_mode((WIDTH, HEIGHT)) # Set screen mode
-    eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
     
-    # Draw main menu buttons
-    play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
-    options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
-    quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, quit_img)
+    if screen_flag == "main_menu":
+        pygame.display.set_caption("Main Menu") # Set screen title
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
+        
+        # Draw main menu buttons
+        play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
+        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
+        quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, quit_img)
     
-    #  Event loop
+    
+    elif screen_flag == "options":
+        pygame.display.set_caption("Options")
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img)
+        
+        if bg_on == True:
+            bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusic_img)
+        elif bg_on == False:
+            bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusicoff_img)
+            
+        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
+        
+    elif screen_flag == "cheat_sheet":
+        screen.fill(pygame.Color("Black")) 
+        pygame.display.set_caption("Cheat Sheet")
+        play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
+        
+    elif screen_flag == "game":
+        game.Game(screen)
+        
+    
+        
     mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
-    left_click = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # Window close event
             eng.Shutdown()
         if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
             if event.button == 1:
-                left_click = True
-    
-    # Menu button press
-    if left_click:
-        if play_button.collidepoint(mouse_xpos, mouse_ypos):
-            eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet)
-            pygame.display.set_caption("CheatSheet")
-            pygame.display.flip()
-            
-            
-            left_click2 = False
-        
-            running = True
-            while running:
-              for event in pygame.event.get():
-                  if event.type == pygame.QUIT: # Window close event
-                          eng.Shutdown()
-                  if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
-                      if event.button == 1:
-                          left_click2 = True   
-                      if left_click2:
-                          game.Game(screen)
-            
-        if options_button.collidepoint(mouse_xpos, mouse_ypos):
-            pass
-        if quit_button.collidepoint(mouse_xpos, mouse_ypos):
-            eng.Shutdown()
-    
-    # Refresh screen
+                if screen_flag == "main_menu":
+                    if play_button.collidepoint(mouse_xpos, mouse_ypos):
+                        screen_flag = "cheat_sheet"
+                    if options_button.collidepoint(mouse_xpos, mouse_ypos):
+                        screen_flag = "options"
+                    if quit_button.collidepoint(mouse_xpos, mouse_ypos):
+                        eng.Shutdown()
+                        
+                elif screen_flag == "cheat_sheet":
+                    if play_button.collidepoint(mouse_xpos, mouse_ypos):
+                        screen_flag = "game"
+                        
+                elif screen_flag == "options":
+                    if options_button.collidepoint(mouse_xpos, mouse_ypos):
+                        screen_flag = "main_menu"
+                    if bgmusic_button.collidepoint(mouse_xpos, mouse_ypos):
+                        if bg_on == True: 
+                                pygame.mixer.music.pause()
+                                bg_on = False
+                        else:
+                            pygame.mixer.music.load('sound/example.mp3')
+                            pygame.mixer.music.play(-1)
+                            bg_on = True
+                        
+
     clock.tick(FRAMERATE)
-    pygame.display.flip()
+    pygame.display.flip()   
+            
+ 
