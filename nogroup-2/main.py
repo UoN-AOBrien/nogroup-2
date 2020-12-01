@@ -21,7 +21,7 @@ options_img = pygame.image.load('images/menu/options.png')
 quit_img = pygame.image.load('images/menu/quit.png')
 background_img = pygame.image.load('images/menu/background.png')
 
-cheatsheet = pygame.image.load('images/cheatsheet.png')
+cheatsheet_img = pygame.image.load('images/cheatsheet.png')
 
 bgmusic_img = pygame.image.load('images/menu/options/bgmusic.png')
 bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.png')
@@ -77,7 +77,7 @@ while True:
         options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
         
     elif screen_flag == "cheat_sheet":
-        screen.fill(pygame.Color("Black")) 
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
         pygame.display.set_caption("Cheat Sheet")
         play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
         
