@@ -33,6 +33,13 @@ def Game(screen):
     pygame.display.set_caption("Game") # Set screen title
     
     
+    # Player group
+    player = eng.Player()
+    player_group = pygame.sprite.Group()
+    player_group.add(player)
+    
+    # Bullet group
+    bullet_group = pygame.sprite.Group()
     
     
     scroll_bg = [0, WIDTH]
@@ -61,7 +68,6 @@ def Game(screen):
                 if event.button == 3:
                     right_click = True
                     
-        
         """ SCROLL BACKGROUND """
         for i in range(2):
             scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], scroll_bg[i])
@@ -72,7 +78,17 @@ def Game(screen):
             bg[0] = bg[1]
             index = random.randint(0, len(backgrounds)-1)
             bg[1] = backgrounds[index]
-
+        
+        
+        """ PLAYER MECHANICS """
+        if left_click:
+            bullet_group.add(player.create_bullet())
+        
+        player_group.update()
+        bullet_group.draw(screen)
+        player_group.draw(screen)
+        bullet_group.update()
+        
         
         # Refresh screen
         clock.tick(FRAMERATE)
