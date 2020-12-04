@@ -23,8 +23,8 @@ background_img = pygame.image.load('images/menu/background.png')
 
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
 
-bgmusic_img = pygame.image.load('images/menu/options/bgmusic.png')
-bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.png')
+bgmusic_img = pygame.image.load('images/menu/options/bgmusic.jpeg')
+bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.jpeg')
 
 
 
