@@ -58,15 +58,15 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
         self.image.fill((0,255,0))
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = random.randrange(700, screen_width)
-        self.speedx = random.randrange(1, 8)# randomise their speed
+        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)
+        self.speedx = random.randrange(3, 8)# randomise their speed
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
         if self.rect.x <= 0:
             self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = random.randrange(700, screen_width)  # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(1, 8)  # randomise their speed
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
+            self.speedx = random.randrange(3, 8)  # randomise their speed
 
            
 

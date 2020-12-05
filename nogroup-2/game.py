@@ -46,7 +46,10 @@ def Game(screen):
     player = eng.Player(player_animations[player_frame])
     player_group = pygame.sprite.Group()
     player_group.add(player)
-    
+
+    #Player bullet group
+    bullet_group = pygame.sprite.Group()
+
     # Bullet group one group for each bullet direction
     rightbullet_group = pygame.sprite.Group()
     leftbullet_group = pygame.sprite.Group()
@@ -154,7 +157,7 @@ def Game(screen):
             
         # Shoots bullet on left click
         if left_click:
-            rightbullet_group.add(player.create_rightbullet())
+            bullet_group.add(player.create_bullet())
         
         # If player life is 0 game stops
         if player.life == 0:
@@ -174,6 +177,13 @@ def Game(screen):
                 m = eng.Mob(mob_animations[0])
                 mob.add(m)
                 kills += 1
+
+        mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) #didnt work when I added it to the above loop for some reason so making a separate loop for now for player bullet.
+        # This loop adds a mob if a mob dies
+        for hit in mob_player_hit:
+            m = eng.Mob(mob_animations[0])
+            mob.add(m)
+            kills += 1
         
         # If the player is hit by a mob the player loses a life 
         # Mob is removed to prevent too many collisions and loss of multiple lives
@@ -229,7 +239,8 @@ def Game(screen):
         upbullet_group.draw(screen)
         player_group.draw(screen)
         starbullet.draw(screen)
-    
+        bullet_group.draw(screen)
+        bullet_group.update()
         rightbullet_group.update()
         leftbullet_group.update()
         downbullet_group.update()

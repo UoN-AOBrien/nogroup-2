@@ -74,38 +74,38 @@ class Player(pygame.sprite.Sprite):
 
 
 
-#    def create_bullet(self):
-#        return Bullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]) #return bullet and has the position of wherever the mouse is
-#
-#
-#class Bullet(pygame.sprite.Sprite):
-#    def __init__(self,pos_x,pos_y):
-#        super().__init__()
-#        self.image = pygame.Surface((50, 10))
-#        self.image.fill((255,0,0))#colour
-#        self.rect = self.image.get_rect(center = (pos_x,pos_y))
-#
-#    def update(self):
-#        self.rect.x += 5
-#
-#        if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
-#            self.kill() #bullet will destroy itself to save memory and improve performance
-#            
+    def create_bullet(self):
+        return Bullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]) #return bullet and has the position of wherever the mouse is
+
+
+class Bullet(pygame.sprite.Sprite):
+   def __init__(self,pos_x,pos_y):
+       super().__init__()
+       self.image = pygame.Surface((50, 10))
+       self.image.fill((255,0,0))#colour
+       self.rect = self.image.get_rect(center = (pos_x,pos_y))
+
+   def update(self):
+       self.rect.x += 10
+
+       if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
+           self.kill() #bullet will destroy itself to save memory and improve performance
+
 class Mob(pygame.sprite.Sprite): #spawn enemies
     def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.scale(image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = random.randrange(700, screen_width)
-        self.speedx = random.randrange(1, 8)# randomise their speed
+        self.rect.x = random.randrange(screen_width + 100, screen_width+500)
+        self.speedx = random.randrange(3, 8)# randomise their speed
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
         if self.rect.x <= 0:
             self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = random.randrange(700, screen_width)  # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(1, 8)  # randomise their speed
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
+            self.speedx = random.randrange(3, 8)  # randomise their speed
             
 #%% Peggy's code
 class RightBullet(pygame.sprite.Sprite):
