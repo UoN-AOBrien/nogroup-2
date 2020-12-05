@@ -33,7 +33,26 @@ def Game(screen):
     pygame.display.set_caption("Game") # Set screen title
     
     
+<<<<<<< Updated upstream
     
+=======
+    # Player group
+    player = eng.Player()
+    player_group = pygame.sprite.Group()
+    player_group.add(player)
+
+    #Player Bullet
+    bullet_group = pygame.sprite.Group()
+    
+    # Bullet group one group for each bullet direction
+    rightbullet_group = pygame.sprite.Group()
+    leftbullet_group = pygame.sprite.Group()
+    downbullet_group = pygame.sprite.Group()
+    upbullet_group = pygame.sprite.Group()
+
+
+
+>>>>>>> Stashed changes
     
     scroll_bg = [0, WIDTH]
     bg=[0, 0]
@@ -75,6 +94,129 @@ def Game(screen):
 
         player_group, mob, bullet_group,player,screen = eng.setup_sprites(WIDTH, HEIGHT)
         player_group, bullet_group, mob = eng.draw_sprites(player_group,mob,bullet_group,player,screen)
+
+        
+        
+        """ TIMER AND SCORE """
+        # Calculates the total number of seconds at current point in time
+        # Code is built from http://programarcadegames.com/python_examples/f.php?file=timer.py
+        # Also calculates score based on time spent in game and number of kills
+        total_seconds = frame_count // frame_rate
+        seconds = total_seconds % 60
+        if kills > 1 or kills == 1:
+            score = seconds + (kills*5)
+        else:
+            score = seconds
+        
+        
+        """ PLAYER MECHANICS """
+        # Shoots bullet on left click
+        if left_click:
+            bullet_group.add(player.create_bullet()) #eddited 04/12/2020
+        
+        # If player life is 0 game stops
+        if player.life == 0:
+            game_running = False #if player is hit by mob, loop stops and game exits
+            eng.Shutdown()
+        else:
+            game_running = True  
+        
+        """ COLLISIONS """
+        # Check to see if a bullet hits a mob
+        # Bullet needs to run into mob and vice versa so 2 Trues
+        mob_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True)
+        #This loop adds a mob if a mob dies
+        for hit in mob_hit: 
+            m = eng.Mob()
+            mob.add(m)
+            kills = kills + 1
+        
+        #Repeated code for each bullet direction
+
+        mob_hit = pygame.sprite.groupcollide(mob, rightbullet_group, True, True)
+        for hit in mob_hit:
+            m = eng.Mob()
+            mob.add(m)
+            kills = kills + 1
+
+        mob_hit = pygame.sprite.groupcollide(mob, leftbullet_group, True, True)
+        for hit in mob_hit: 
+            m = eng.Mob()
+            mob.add(m)
+            kills = kills + 1
+            
+        mob_hit = pygame.sprite.groupcollide(mob, downbullet_group, True, True)
+        for hit in mob_hit: 
+            m = eng.Mob()
+            mob.add(m)
+            kills = kills + 1
+            
+        mob_hit = pygame.sprite.groupcollide(mob, upbullet_group, True, True)
+        for hit in mob_hit: 
+            m = eng.Mob()
+            mob.add(m)
+            kills = kills + 1
+            
+        # If the player is hit by a mob the player loses a life 
+        # Mob is removed to prevent too many collisions and loss of multiple lives
+        player_hit = pygame.sprite.spritecollide(player, mob, True) 
+        if player_hit:
+            player.life = player.life -1
+            mob.remove(m)
+            m = eng.Mob()
+            mob.add(m)
+            
+            
+            
+            
+        """ BOOSTS """
+        # If the player is touches heart gains a life
+        # Heart is removed to prevent too many collisions and gaining of multiple lives
+        life_up = pygame.sprite.spritecollide(player, heart, True) 
+        if life_up:
+            player.life = player.life + 1
+            heart.remove(h)
+        
+        # Caps the amount of lives the player can gain
+        # Spawns a new life every 30 seconds
+        if player.life < 4:
+            if seconds%30 == 0:
+                heart.add(h)
+        
+        # If the player is touches bullet, cause bullets to shoot in 4 directions
+        # Bullet is removed to prevent too many collisions and gaining of multiple, multiple bullets
+        bullet_up = pygame.sprite.spritecollide(player, starbullet, True)
+        if bullet_up:
+            leftbullet_group.add(player.create_leftbullet())
+            downbullet_group.add(player.create_downbullet())
+            rightbullet_group.add(player.create_rightbullet())
+            upbullet_group.add(player.create_upbullet())
+            starbullet.remove(s)
+            
+        # Spawns a new star bullet every 30 seconds    
+        if seconds%30 == 0:
+            starbullet.add(s)  
+            
+        
+        
+        
+        
+        
+        # Updates and draws everything to screen
+        mob.update()
+        player_group.update()
+        heart.update()
+        starbullet.update()
+        bullet_group.draw(screen)
+        bullet_group.update()
+
+        mob.draw(screen)
+        heart.draw(screen)
+        rightbullet_group.draw(screen)
+        leftbullet_group.draw(screen)
+        downbullet_group.draw(screen)
+        upbullet_group.draw(screen)
+
         player_group.draw(screen)
         bullet_group.draw(screen)
         mob.draw(screen)
