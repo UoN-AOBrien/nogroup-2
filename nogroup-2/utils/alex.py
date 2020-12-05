@@ -36,10 +36,19 @@ def DrawStaticBackground(window, width, height, image):
     backgroundRect = pygame.Rect(0, 0, width, height)
     image = pygame.transform.scale(image, (width, height))
     window.blit(image, backgroundRect)
+    
+# Draw Level Screen    
+def DrawLevelScreen(window, width, height, image, level):
+    DrawStaticBackground(window, width, height, image)
+    myfont = pygame.font.SysFont('Comic Sans MS', 120)
+    level_text = myfont.render("Level " + str(level), False, (153, 0, 153))
+    window.blit(level_text, level_text.get_rect(center=(width//2, height//2)))
+    pygame.display.flip()
+    pygame.time.wait(750) # wait
 
 # Draw infinite scroll
-def DrawScrollBackground(window, width, speed, image, x):
-    x -= speed
+def DrawScrollBackground(window, width, speed, image, fps, x):
+    x -= width // (fps * speed)
     window.blit(image, (x, 0))
     return x
         

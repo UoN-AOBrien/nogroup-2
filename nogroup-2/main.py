@@ -16,16 +16,16 @@ HEIGHT = 600
 FRAMERATE = 60
 
 # Load menu assets
-play_img = pygame.image.load('images/menu/play.png')
-options_img = pygame.image.load('images/menu/options.png')
-quit_img = pygame.image.load('images/menu/quit.png')
+play_img = pygame.image.load('images/menu/play.jpeg')
+options_img = pygame.image.load('images/menu/options.jpeg')
+quit_img = pygame.image.load('images/menu/quit.jpeg')
 background_img = pygame.image.load('images/menu/background.png')
 
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
 
 bgmusic_img = pygame.image.load('images/menu/options/bgmusic.jpeg')
 bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.jpeg')
-
+back_img = pygame.image.load('images/menu/options/back.jpeg')
 
 
 # Initialise modules
@@ -74,7 +74,7 @@ while True:
         elif bg_on == False:
             bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusicoff_img)
             
-        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
+        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, back_img)
         
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
@@ -82,6 +82,7 @@ while True:
         play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
         
     elif screen_flag == "game":
+        screen_flag = "main_menu"
         game.Game(screen)
         
     

@@ -15,15 +15,21 @@ HEIGHT = 900
 FRAMERATE = 60
 
 # Load assests
-backgrounds = [pygame.image.load('images/game/background/background1.png'),
-              pygame.image.load('images/game/background/background2.png')]
+backgrounds_all = [[pygame.image.load('images/game/background/garden (low).jpeg')],
+                   [pygame.image.load('images/game/background/graveyard (high).jpeg')]]
+backgrounds = backgrounds_all[1]
+level_img = pygame.image.load('images/game/background/graveyard (low).jpeg')
+gameover_img = pygame.image.load('images/game/gameover.jpeg')
 
+player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 8)]
+mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 2)]
 
-
-
-def Game(screen):       
+def Game(screen):
+    global backgrounds_all, backgrounds    
+    
     # Initialise clock
     clock = pygame.time.Clock()
+    offset = pygame.time.get_ticks() // 1000
 
     # Initialise screen
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -35,7 +41,9 @@ def Game(screen):
     
     
     # Player group
-    player = eng.Player()
+    player_loop = 0
+    player_frame = 0
+    player = eng.Player(player_animations[player_frame])
     player_group = pygame.sprite.Group()
     player_group.add(player)
     
@@ -50,7 +58,7 @@ def Game(screen):
     mob = pygame.sprite.Group()
     mob_number = 5
     for i in range(mob_number):#no of mobs
-        m = eng.Mob()
+        m = eng.Mob(mob_animations[0])
         mob.add(m)
         
     # Heart group
@@ -68,15 +76,16 @@ def Game(screen):
         s = eng.StarBullet()
         starbullet.add(s)  
     
-    # Variables to be used for the timer     
-    frame_count = 0
-    frame_rate = 120
-    
     # Score and a separate variable for kill counter
     score = 0
     kills = 0
+    level = 1
+    
+    """ Display Level Screen """
+    eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
+    offset = pygame.time.get_ticks() // 1000 # set offset for game timer
 
-
+    # init background
     scroll_bg = [0, WIDTH]
     bg=[0, 0]
     for i in range(2):
@@ -105,7 +114,7 @@ def Game(screen):
                     
         """ SCROLL BACKGROUND """
         for i in range(2):
-            scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], scroll_bg[i])
+            scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], FRAMERATE, scroll_bg[i])
         
         # reset loop
         if scroll_bg[1] < 0:
@@ -119,7 +128,14 @@ def Game(screen):
         # Calculates the total number of seconds at current point in time
         # Code is built from http://programarcadegames.com/python_examples/f.php?file=timer.py
         # Also calculates score based on time spent in game and number of kills
-        total_seconds = frame_count // frame_rate
+        total_seconds = (pygame.time.get_ticks() // 1000) - offset
+        
+        if total_seconds >= 60:
+            level += 1
+            eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
+            offset = pygame.time.get_ticks() // 1000 # set offset for game timer
+            backgrounds = backgrounds_all[level % 2]
+            
         seconds = total_seconds % 60
         if kills > 1 or kills == 1:
             score = seconds + (kills*5)
@@ -128,56 +144,45 @@ def Game(screen):
         
         
         """ PLAYER MECHANICS """
+        # increment player frame
+        player_loop += 1
+        if player_loop >= FRAMERATE // (len(player_animations) * speed):
+            player_loop = 0
+            player_frame += 1
+        if player_frame >= len(player_animations):
+            player_frame = 0
+            
         # Shoots bullet on left click
         if left_click:
             rightbullet_group.add(player.create_rightbullet())
         
         # If player life is 0 game stops
         if player.life == 0:
+            eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) # Set game over background
+            pygame.display.flip() # update display
+            pygame.time.wait(5000) # wait for 5 seconds i.e. display game over screen
             game_running = False #if player is hit by mob, loop stops and game exits
-            eng.Shutdown()
-        else:
-            game_running = True  
         
         """ COLLISIONS """
         # Check to see if a bullet hits a mob
         # Bullet needs to run into mob and vice versa so 2 Trues
-        mob_hit = pygame.sprite.groupcollide(mob, rightbullet_group, True, True)
-        #This loop adds a mob if a mob dies
-        for hit in mob_hit: 
-            m = eng.Mob()
-            mob.add(m)
-            kills = kills + 1
+        bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
+        for bullet in bullet_groups:
+            mob_hit = pygame.sprite.groupcollide(mob, rightbullet_group, True, True)
+            #This loop adds a mob if a mob dies
+            for hit in mob_hit: 
+                m = eng.Mob(mob_animations[0])
+                mob.add(m)
+                kills += 1
         
-        #Repeated code for each bullet direction
-        mob_hit = pygame.sprite.groupcollide(mob, leftbullet_group, True, True)
-        for hit in mob_hit: 
-            m = eng.Mob()
-            mob.add(m)
-            kills = kills + 1
-            
-        mob_hit = pygame.sprite.groupcollide(mob, downbullet_group, True, True)
-        for hit in mob_hit: 
-            m = eng.Mob()
-            mob.add(m)
-            kills = kills + 1
-            
-        mob_hit = pygame.sprite.groupcollide(mob, upbullet_group, True, True)
-        for hit in mob_hit: 
-            m = eng.Mob()
-            mob.add(m)
-            kills = kills + 1
-            
         # If the player is hit by a mob the player loses a life 
         # Mob is removed to prevent too many collisions and loss of multiple lives
         player_hit = pygame.sprite.spritecollide(player, mob, True) 
         if player_hit:
-            player.life = player.life -1
+            player.life -= 1
             mob.remove(m)
-            m = eng.Mob()
+            m = eng.Mob(mob_animations[0])
             mob.add(m)
-            
-            
             
             
         """ BOOSTS """
@@ -185,13 +190,13 @@ def Game(screen):
         # Heart is removed to prevent too many collisions and gaining of multiple lives
         life_up = pygame.sprite.spritecollide(player, heart, True) 
         if life_up:
-            player.life = player.life + 1
+            player.life += 1
             heart.remove(h)
         
         # Caps the amount of lives the player can gain
-        # Spawns a new life every 30 seconds
-        if player.life < 4:
-            if seconds%30 == 0:
+        # Spawns a new life every 20 to 30 seconds
+        if player.life < 5:
+            if seconds % (random.randint(20, 30)) == 0:
                 heart.add(h)
         
         # If the player is touches bullet, cause bullets to shoot in 4 directions
@@ -210,12 +215,9 @@ def Game(screen):
             
         
         
-        
-        
-        
         # Updates and draws everything to screen
         mob.update()
-        player_group.update()
+        player_group.update(player_animations[player_frame])
         heart.update()
         starbullet.update()
     
@@ -234,12 +236,8 @@ def Game(screen):
         upbullet_group.update()
             
             
-       
-        
-        
     
         # Test section for timer, lives, score and kill counter 
-        
         myfont = pygame.font.SysFont('Comic Sans MS', 30)
         lives = myfont.render(str(player.life), False, (153, 0, 153))
         timer = myfont.render(str(seconds), False, (153, 0, 153))
@@ -254,6 +252,5 @@ def Game(screen):
        
         
         # Add to frame count for the timer
-        frame_count = frame_count + 1
-        clock.tick(120)
+        clock.tick(FRAMERATE)
         pygame.display.flip()

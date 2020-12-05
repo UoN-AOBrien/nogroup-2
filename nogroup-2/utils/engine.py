@@ -32,11 +32,15 @@ def DrawMenuButton(window, width, height, button_number, image):
 # Draw static background - useful for menu screens etc
 def DrawStaticBackground(window, width, height, image):
     FuncAlex.DrawStaticBackground(window, width, height, image)
+    
+# Draw Level Screen    
+def DrawLevelScreen(window, width, height, image, level):
+    FuncAlex.DrawLevelScreen(window, width, height, image, level)
 
     
 # Draw infinite scroll
-def DrawScrollBackground(window, width, speed, image, x):
-    return FuncAlex.DrawScrollBackground(window, width, speed, image, x)
+def DrawScrollBackground(window, width, speed, image, fps, x):
+    return FuncAlex.DrawScrollBackground(window, width, speed, image, fps, x)
 
 
 #%% Harri's code
@@ -46,14 +50,14 @@ screen_width = 1600
 screen_height = 900
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, image):
         super().__init__()
-        self.image = pygame.Surface((100,100))#100pixels wide and high
-        self.image.fill((255,255,255))
+        self.image = pygame.transform.scale(image, (100, 100))
         self.rect = self.image.get_rect(center=(screen_width/2,screen_height/2))
         self.life = 1
 
-    def update(self):
+    def update(self, image):
+        self.image = pygame.transform.scale(image, (100, 100))
         self.rect.center = pygame.mouse.get_pos()
         
     def create_rightbullet(self):
@@ -88,10 +92,9 @@ class Player(pygame.sprite.Sprite):
 #            self.kill() #bullet will destroy itself to save memory and improve performance
 #            
 class Mob(pygame.sprite.Sprite): #spawn enemies
-    def __init__(self):
+    def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30,40))
-        self.image.fill((0,255,0))
+        self.image = pygame.transform.scale(image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
         self.rect.x = random.randrange(700, screen_width)
@@ -137,7 +140,7 @@ class LeftBullet(pygame.sprite.Sprite):
 class DownBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
-        self.image = pygame.Surface((50, 10))
+        self.image = pygame.Surface((10, 50))
         self.image.fill((255,0,0))#colour
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
         self.downwards = False
@@ -151,7 +154,7 @@ class DownBullet(pygame.sprite.Sprite):
 class UpBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
-        self.image = pygame.Surface((50, 10))
+        self.image = pygame.Surface((10, 50))
         self.image.fill((255,0,0))#colour
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
         self.downwards = False
