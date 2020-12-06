@@ -24,6 +24,8 @@ gameover_img = pygame.image.load('images/game/gameover.jpeg')
 player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 8)]
 mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 2)]
 
+
+
 def Game(screen):
     global backgrounds_all, backgrounds    
     

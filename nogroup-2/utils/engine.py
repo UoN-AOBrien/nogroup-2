@@ -14,6 +14,9 @@ import utils.harri as FuncHarri
 import utils.hongyuan as FuncHongyuan
 import utils.peggy as FuncPeggy
 
+
+
+
 # Classes and Functions
 
 # Shutdown application
@@ -81,9 +84,11 @@ class Player(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
    def __init__(self,pos_x,pos_y):
        super().__init__()
+       bullet_img = pygame.image.load('images/game/player/bullet.png').convert_alpha()
        self.image = pygame.Surface((50, 10))
-       self.image.fill((255,0,0))#colour
+       self.image = bullet_img
        self.rect = self.image.get_rect(center = (pos_x,pos_y))
+       
 
    def update(self):
        self.rect.x += 10
@@ -174,12 +179,16 @@ class UpBullet(pygame.sprite.Sprite):
 class Heart(pygame.sprite.Sprite): #spawn enemies
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30,40))
+        self.image = pygame.Surface((40,40))
         self.image.fill((153, 0, 153))
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
         self.rect.x = random.randrange(700, screen_width)
         self.speedx = random.randrange(1, 8)# randomise their speed
+
+
+
+
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
