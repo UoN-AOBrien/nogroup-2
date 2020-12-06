@@ -79,7 +79,7 @@ while True:
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
         pygame.display.set_caption("Cheat Sheet")
-        play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
+        play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5.3, play_img)
         
     elif screen_flag == "game":
         screen_flag = "main_menu"
