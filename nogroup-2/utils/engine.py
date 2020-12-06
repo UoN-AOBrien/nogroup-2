@@ -185,6 +185,7 @@ class Heart(pygame.sprite.Sprite): #spawn enemies
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
         self.rect.x = random.randrange(700, screen_width)
         self.speedx = random.randrange(1, 8)# randomise their speed
+        
 
 
 
