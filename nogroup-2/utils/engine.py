@@ -91,22 +91,26 @@ class Bullet(pygame.sprite.Sprite):
        if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
            self.kill() #bullet will destroy itself to save memory and improve performance
 
+
 class Mob(pygame.sprite.Sprite): #spawn enemies
-    def __init__(self, image):
+    def __init__(self, image, level):
+        self.level = level
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.scale(image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
         self.rect.x = random.randrange(screen_width + 100, screen_width+500)
-        self.speedx = random.randrange(3, 8)# randomise their speed
+        self.speedx = random.randrange(5, 10) * self.level# randomise their speed
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
         if self.rect.x <= 0:
             self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
             self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(3, 8)  # randomise their speed
-            
+            self.speedx = random.randrange(5, 10) * self.level# randomise their speed
+
+
+
 #%% Peggy's code
 class RightBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
@@ -133,7 +137,7 @@ class LeftBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.x -= 5
-        if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
+        if self.rect.x < 0: #if bullet goes too far to the left,
             self.kill() #bullet will destroy itself to save memory and improve performance
        
         
@@ -148,7 +152,7 @@ class DownBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.y += 5
-        if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
+        if self.rect.y >= screen_height + 200: #if bullet goes too far down,
             self.kill() #bullet will destroy itself to save memory and improve performance
        
 class UpBullet(pygame.sprite.Sprite):
@@ -162,7 +166,7 @@ class UpBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.y -= 5
-        if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
+        if self.rect.x < 0: #if bullet goes too far to up,
             self.kill() #bullet will destroy itself to save memory and improve performance
        
                

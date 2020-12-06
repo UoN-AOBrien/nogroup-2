@@ -61,7 +61,7 @@ def Game(screen):
     mob = pygame.sprite.Group()
     mob_number = 5
     for i in range(mob_number):#no of mobs
-        m = eng.Mob(mob_animations[0])
+        m = eng.Mob(mob_animations[0], 1)
         mob.add(m)
         
     # Heart group
@@ -171,17 +171,17 @@ def Game(screen):
         # Bullet needs to run into mob and vice versa so 2 Trues
         bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
         for bullet in bullet_groups:
-            mob_hit = pygame.sprite.groupcollide(mob, rightbullet_group, True, True)
+            mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
             #This loop adds a mob if a mob dies
             for hit in mob_hit: 
-                m = eng.Mob(mob_animations[0])
+                m = eng.Mob(mob_animations[0], level)
                 mob.add(m)
                 kills += 1
 
         mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) #didnt work when I added it to the above loop for some reason so making a separate loop for now for player bullet.
         # This loop adds a mob if a mob dies
         for hit in mob_player_hit:
-            m = eng.Mob(mob_animations[0])
+            m = eng.Mob(mob_animations[0], level)
             mob.add(m)
             kills += 1
         
@@ -191,7 +191,7 @@ def Game(screen):
         if player_hit:
             player.life -= 1
             mob.remove(m)
-            m = eng.Mob(mob_animations[0])
+            m = eng.Mob(mob_animations[0], level)
             mob.add(m)
             
             
@@ -245,7 +245,7 @@ def Game(screen):
         leftbullet_group.update()
         downbullet_group.update()
         upbullet_group.update()
-            
+
             
     
         # Test section for timer, lives, score and kill counter 
