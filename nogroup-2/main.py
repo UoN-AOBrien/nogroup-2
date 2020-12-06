@@ -11,8 +11,7 @@ import game
 import utils.engine as eng
 
 # Global variables
-WIDTH = 800
-HEIGHT = 600
+
 FRAMERATE = 60
 
 # Load menu assets
@@ -27,6 +26,9 @@ bgmusic_img = pygame.image.load('images/menu/options/bgmusic.jpeg')
 bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.jpeg')
 
 back_img = pygame.image.load('images/menu/options/back.jpeg')
+icon = pygame.image.load('images/game/player/skull1.png')
+
+
 
 
 # Initialise modules
@@ -34,12 +36,21 @@ pygame.init()
 
 # Center screens
 eng.CenterWindow()
-
 # Initialise clock
 clock = pygame.time.Clock()
 
 # Initialise screen
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+infoObject = pygame.display.Info()
+screen = pygame.display.set_mode((600, 800))
+#screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+pygame.display.set_icon(icon)
+
+
+
+pygame.display.init()
+
+
 screen.fill(pygame.Color("Black")) 
 pygame.display.flip()
 
@@ -49,16 +60,33 @@ pygame.mixer.music.play(-1)
 
 screen_flag = "main_menu"
 
-    
+fullscreen = False  
+
+WIDTH = 800
+HEIGHT = 600
 
 # Application Loop
 while True:
-   
-    screen = pygame.display.set_mode((WIDTH, HEIGHT)) # Set screen mode
+    
+    if fullscreen == True: 
+        WIDTH = infoObject.current_w
+        HEIGHT = infoObject.current_h
+        screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+        
+    else:
+        WIDTH = 800
+        HEIGHT = 600
+        screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+        
+    
+    
+    
     
     if screen_flag == "main_menu":
         pygame.display.set_caption("Main Menu") # Set screen title
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
+        
+            
         
         # Draw main menu buttons
         play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
@@ -68,17 +96,26 @@ while True:
     
     elif screen_flag == "options":
         pygame.display.set_caption("Options")
-        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img)
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
         
         if bg_on == True:
             bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusic_img)
         elif bg_on == False:
             bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusicoff_img)
             
-        back_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, back_img)
+            
+        if fullscreen == True:
+            fullscreen_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, bgmusic_img)
+        elif fullscreen == False:
+            fullscreen_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, bgmusicoff_img)
+            
+            
+            
+        back_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, back_img)
         
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
+        
         pygame.display.set_caption("Cheat Sheet")
         play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
         
@@ -109,14 +146,32 @@ while True:
                 elif screen_flag == "options":
                     if back_button.collidepoint(mouse_xpos, mouse_ypos):
                         screen_flag = "main_menu"
+                        
+                        
+                        
+                        
+                        
                     if bgmusic_button.collidepoint(mouse_xpos, mouse_ypos):
                         if bg_on == True: 
-                                pygame.mixer.music.pause()
-                                bg_on = False
+                            pygame.mixer.music.pause()
+                            bg_on = False
                         else:
                             pygame.mixer.music.load('sound/example.mp3')
                             pygame.mixer.music.play(-1)
                             bg_on = True
+                            
+                    if fullscreen_button.collidepoint(mouse_xpos, mouse_ypos):
+                        if fullscreen == True: 
+                            WIDTH = infoObject.current_w
+                            HEIGHT = infoObject.current_h
+                            screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+                            fullscreen = False
+                        else:
+                            WIDTH = 800
+                            HEIGHT = 600
+                            screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+                            fullscreen = True
+                        
                         
                         
 
