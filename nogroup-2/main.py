@@ -25,6 +25,7 @@ cheatsheet_img = pygame.image.load('images/cheatsheet.png')
 
 bgmusic_img = pygame.image.load('images/menu/options/bgmusic.jpeg')
 bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.jpeg')
+
 back_img = pygame.image.load('images/menu/options/back.jpeg')
 
 
@@ -74,7 +75,7 @@ while True:
         elif bg_on == False:
             bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusicoff_img)
             
-        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, back_img)
+        back_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, back_img)
         
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
@@ -106,7 +107,7 @@ while True:
                         screen_flag = "game"
                         
                 elif screen_flag == "options":
-                    if options_button.collidepoint(mouse_xpos, mouse_ypos):
+                    if back_button.collidepoint(mouse_xpos, mouse_ypos):
                         screen_flag = "main_menu"
                     if bgmusic_button.collidepoint(mouse_xpos, mouse_ypos):
                         if bg_on == True: 
@@ -116,6 +117,7 @@ while True:
                             pygame.mixer.music.load('sound/example.mp3')
                             pygame.mixer.music.play(-1)
                             bg_on = True
+                        
                         
 
     clock.tick(FRAMERATE)
