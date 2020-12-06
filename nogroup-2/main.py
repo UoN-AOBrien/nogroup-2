@@ -42,7 +42,6 @@ clock = pygame.time.Clock()
 # Initialise screen
 infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((600, 800))
-#screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_icon(icon)
 
@@ -62,8 +61,8 @@ screen_flag = "main_menu"
 
 fullscreen = False  
 
-WIDTH = 800
-HEIGHT = 600
+#WIDTH = 800
+#HEIGHT = 600
 
 # Application Loop
 while True:
@@ -129,6 +128,15 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # Window close event
             eng.Shutdown()
+            
+            
+        if event.type == pygame.VIDEORESIZE:
+            old_screen = screen
+            
+            screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            screen.blit(old_screen, (0,0))
+            del old_screen
+
         if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
             if event.button == 1:
                 if screen_flag == "main_menu":
@@ -167,8 +175,8 @@ while True:
                             screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
                             fullscreen = False
                         else:
-                            WIDTH = 800
-                            HEIGHT = 600
+                            WIDTH = 600
+                            HEIGHT = 800
                             screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
                             fullscreen = True
                         
