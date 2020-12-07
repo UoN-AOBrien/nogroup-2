@@ -28,6 +28,9 @@ bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.jpeg')
 back_img = pygame.image.load('images/menu/options/back.jpeg')
 
 
+
+
+
 # Initialise modules
 pygame.init()
 
@@ -45,6 +48,17 @@ pygame.display.flip()
 bg_on = True
 pygame.mixer.music.load('sound/longspookydogmusic.mp3')
 pygame.mixer.music.play(-1)
+
+menu_sound = pygame.mixer.Sound("sound/music for game/spookymenubuttonpress.mp3")   
+
+
+
+
+
+
+
+
+
 
 screen_flag = "main_menu"
 
@@ -95,20 +109,25 @@ while True:
             if event.button == 1:
                 if screen_flag == "main_menu":
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
+                        pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "cheat_sheet"
                     if options_button.collidepoint(mouse_xpos, mouse_ypos):
+                        pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "options"
                     if quit_button.collidepoint(mouse_xpos, mouse_ypos):
                         eng.Shutdown()
                         
                 elif screen_flag == "cheat_sheet":
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
+                        pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "game"
                         
                 elif screen_flag == "options":
                     if options_button.collidepoint(mouse_xpos, mouse_ypos):
+                        pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "main_menu"
                     if bgmusic_button.collidepoint(mouse_xpos, mouse_ypos):
+                        pygame.mixer.Sound.play(menu_sound)
                         if bg_on == True: 
                                 pygame.mixer.music.pause()
                                 bg_on = False

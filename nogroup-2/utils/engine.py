@@ -230,3 +230,7 @@ class StarBullet(pygame.sprite.Sprite): #spawn enemies
      
         if self.rect.x <= -self.rect.width: #if bullet goes too far to the right,
             self.kill()
+            
+            
+            
+            
