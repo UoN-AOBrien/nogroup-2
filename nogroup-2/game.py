@@ -22,7 +22,7 @@ level_img = pygame.image.load('images/game/background/graveyard (low).jpeg')
 gameover_img = pygame.image.load('images/game/gameover.jpeg')
 
 player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 9)]
-mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 3)]
+mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 4)]
 heart_animations = [pygame.image.load('images/game/boosts/heart' + str(i) + ".png") for i in range (1, 3)]
 
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
@@ -208,6 +208,8 @@ def Game(screen, mute):
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
                 #This loop adds a mob if a mob dies
                 for hit in mob_hit: 
+                    if mute == False:    
+                        pygame.mixer.Sound.play(mobgothit_sound)
                     m = eng.Mob(mob_animations, level)
                     mob.add(m)
                     kills += 1
@@ -217,7 +219,8 @@ def Game(screen, mute):
             for hit in mob_player_hit:
                 if mute == False:    
                     pygame.mixer.Sound.play(mobgothit_sound)
-                m = eng.Mob(mob_animations, level)
+                
+                m = eng.Mob(mob_animations, level) 
                 mob.add(m)
                 kills += 1
             
