@@ -234,3 +234,9 @@ class StarBullet(pygame.sprite.Sprite): #spawn enemies
             
             
             
+def Mute(mute):
+    return FuncPeggy.Mute()
+
+
+
+

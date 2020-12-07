@@ -57,7 +57,7 @@ menu_sound = pygame.mixer.Sound("sound/music for game/spookymenubuttonpress.mp3"
 
 
 
-
+mute = False
 
 
 screen_flag = "main_menu"
@@ -88,7 +88,13 @@ while True:
         elif bg_on == False:
             bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusicoff_img)
             
-        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, back_img)
+            
+        if mute == False:
+            sfx_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, bgmusic_img)
+        elif mute == True:
+            sfx_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, bgmusicoff_img)
+            
+        options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, back_img)
         
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
@@ -97,7 +103,7 @@ while True:
         
     elif screen_flag == "game":
         screen_flag = "main_menu"
-        game.Game(screen)
+        game.Game(screen, mute)
         
     
         
@@ -109,25 +115,36 @@ while True:
             if event.button == 1:
                 if screen_flag == "main_menu":
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
-                        pygame.mixer.Sound.play(menu_sound)
+                        
+                        if mute == False:
+                            pygame.mixer.Sound.play(menu_sound)
+                        
+                        
+                        
                         screen_flag = "cheat_sheet"
                     if options_button.collidepoint(mouse_xpos, mouse_ypos):
-                        pygame.mixer.Sound.play(menu_sound)
+                        
+                        if mute == False:
+                            pygame.mixer.Sound.play(menu_sound)
+                            
                         screen_flag = "options"
                     if quit_button.collidepoint(mouse_xpos, mouse_ypos):
                         eng.Shutdown()
                         
                 elif screen_flag == "cheat_sheet":
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
-                        pygame.mixer.Sound.play(menu_sound)
+                        if mute == False:
+                            pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "game"
                         
                 elif screen_flag == "options":
                     if options_button.collidepoint(mouse_xpos, mouse_ypos):
-                        pygame.mixer.Sound.play(menu_sound)
+                        if mute == False:
+                            pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "main_menu"
                     if bgmusic_button.collidepoint(mouse_xpos, mouse_ypos):
-                        pygame.mixer.Sound.play(menu_sound)
+                        if mute == False:
+                            pygame.mixer.Sound.play(menu_sound)
                         if bg_on == True: 
                                 pygame.mixer.music.pause()
                                 bg_on = False
@@ -135,6 +152,14 @@ while True:
                             pygame.mixer.music.load('sound/example.mp3')
                             pygame.mixer.music.play(-1)
                             bg_on = True
+                            
+                    if sfx_button.collidepoint(mouse_xpos, mouse_ypos):
+                        if mute == False:
+                            pygame.mixer.Sound.play(menu_sound)
+                            
+                        mute = eng.FuncPeggy.Mute(mute)
+                        
+                        
                         
 
     clock.tick(FRAMERATE)
