@@ -26,7 +26,7 @@ cheatsheet_img = pygame.image.load('images/cheatsheet.png')
 bgmusic_img = pygame.image.load('images/menu/options/bgmusic.jpeg')
 bgmusicoff_img = pygame.image.load('images/menu/options/bgmusicoff.jpeg')
 sfx_img = pygame.image.load('images/menu/options/sfx.png')
-sfxoff_img = pygame.image.load('images/menu/options/sfxoff.jpg')
+sfxoff_img = pygame.image.load('images/menu/options/sfxoff.jpeg')
 
 back_img = pygame.image.load('images/menu/options/back.jpeg')
 
