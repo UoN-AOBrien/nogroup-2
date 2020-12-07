@@ -21,11 +21,14 @@ backgrounds = backgrounds_all[1]
 level_img = pygame.image.load('images/game/background/graveyard (low).jpeg')
 gameover_img = pygame.image.load('images/game/gameover.jpeg')
 
-player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 8)]
-mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 2)]
-heart_animations = [pygame.image.load('images/game/boosts/heart' + str(i) + ".png") for i in range (1, 2)]
+player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 9)]
+mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 3)]
+heart_animations = [pygame.image.load('images/game/boosts/heart' + str(i) + ".png") for i in range (1, 3)]
 
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
+bullet_img = pygame.image.load('images/game/player/bullet.png')
+starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
+heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
 def Game(screen):
@@ -43,10 +46,11 @@ def Game(screen):
     # Set screen title
     pygame.display.set_caption("Game") 
     
+    pygame.mouse.set_visible(False) # Hide mouse 
+    
     
     # Player group
-    player_loop = 0
-    player_frame = 0
+    player_loop, player_frame = 0, 0
     player = eng.Player(player_animations[player_frame])
     player_group = pygame.sprite.Group()
     player_group.add(player)
@@ -65,7 +69,7 @@ def Game(screen):
     mob = pygame.sprite.Group()
     mob_number = 5
     for i in range(mob_number):#no of mobs
-        m = eng.Mob(mob_animations[0], 1)
+        m = eng.Mob(mob_animations, 1)
         mob.add(m)
         
     # Heart group
@@ -73,14 +77,14 @@ def Game(screen):
     heart = pygame.sprite.Group()
     heart_number = 1
     for i in range(heart_number):#no of hearts
-        h = eng.Heart()
+        h = eng.Heart(heart_img)
         heart.add(h)
         
     # Bullet star group
     # With adjustable number of bullet stars
     starbullet = pygame.sprite.Group()
     for i in range(1):#no of hearts
-        s = eng.StarBullet()
+        s = eng.StarBullet(starbullet_img)
         starbullet.add(s)  
     
     # Score and a separate variable for kill counter
@@ -110,7 +114,7 @@ def Game(screen):
         
         # Event loop
         mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
-        left_click, right_click = False, False
+        left_click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # Window close event
                 eng.Shutdown()
@@ -125,8 +129,6 @@ def Game(screen):
             if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
                 if event.button == 1:
                     left_click = True
-                if event.button == 3:
-                    right_click = True
                     
         if state == game_running:
             
@@ -148,7 +150,7 @@ def Game(screen):
             # Also calculates score based on time spent in game and number of kills
             total_seconds = (pygame.time.get_ticks() // 1000) - offset
             
-            if total_seconds >= 60:
+            if total_seconds >= 30:
                 level += 1
                 eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
                 offset = pygame.time.get_ticks() // 1000 # set offset for game timer
@@ -164,7 +166,7 @@ def Game(screen):
             """ PLAYER MECHANICS """
             # increment player frame
             player_loop += 1
-            if player_loop >= FRAMERATE // (len(player_animations) * speed):
+            if player_loop >= FRAMERATE // (len(player_animations) * speed): # Sync player roll to background
                 player_loop = 0
                 player_frame += 1
             if player_frame >= len(player_animations):
@@ -172,7 +174,7 @@ def Game(screen):
                 
             # Shoots bullet on left click
             if left_click:
-                bullet_group.add(player.create_bullet())
+                bullet_group.add(player.create_bullet(bullet_img))
             
             # If player life is 0 game stops
             if player.life == 0:
@@ -189,14 +191,14 @@ def Game(screen):
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
                 #This loop adds a mob if a mob dies
                 for hit in mob_hit: 
-                    m = eng.Mob(mob_animations[0], level)
+                    m = eng.Mob(mob_animations, level)
                     mob.add(m)
                     kills += 1
     
             mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) #didnt work when I added it to the above loop for some reason so making a separate loop for now for player bullet.
             # This loop adds a mob if a mob dies
             for hit in mob_player_hit:
-                m = eng.Mob(mob_animations[0], level)
+                m = eng.Mob(mob_animations, level)
                 mob.add(m)
                 kills += 1
             
@@ -206,7 +208,7 @@ def Game(screen):
             if player_hit:
                 player.life -= 1
                 mob.remove(m)
-                m = eng.Mob(mob_animations[0], level)
+                m = eng.Mob(mob_animations, level)
                 mob.add(m)
                 
                 
@@ -228,14 +230,14 @@ def Game(screen):
             # Bullet is removed to prevent too many collisions and gaining of multiple, multiple bullets
             bullet_up = pygame.sprite.spritecollide(player, starbullet, True)
             if bullet_up:
-                leftbullet_group.add(player.create_leftbullet())
-                downbullet_group.add(player.create_downbullet())
-                rightbullet_group.add(player.create_rightbullet())
-                upbullet_group.add(player.create_upbullet())
+                leftbullet_group.add(player.create_leftbullet(bullet_img))
+                downbullet_group.add(player.create_downbullet(bullet_img))
+                rightbullet_group.add(player.create_rightbullet(bullet_img))
+                upbullet_group.add(player.create_upbullet(bullet_img))
                 starbullet.remove(s)
                 
             # Spawns a new star bullet every 30 seconds    
-            if seconds%30 == 0:
+            if seconds % 20 == 0:
                 starbullet.add(s)  
                 
             

@@ -54,6 +54,7 @@ screen_flag = "main_menu"
 while True:
    
     screen = pygame.display.set_mode((WIDTH, HEIGHT)) # Set screen mode
+    pygame.mouse.set_visible(True) # Ensure mouse is visible
     
     if screen_flag == "main_menu":
         pygame.display.set_caption("Main Menu") # Set screen title
