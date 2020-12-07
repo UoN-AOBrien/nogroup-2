@@ -120,10 +120,11 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
 class RightBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
+        bullet_img = pygame.image.load('images/game/player/bullet.png').convert_alpha()
         self.image = pygame.Surface((50, 10))
-        self.image.fill((255,0,0))#colour
+        self.image = bullet_img
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
-        self.downwards = False
+        
 
         
     def update(self):
@@ -134,10 +135,11 @@ class RightBullet(pygame.sprite.Sprite):
 class LeftBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
+        bullet_img = pygame.image.load('images/game/player/bullet.png').convert_alpha()
         self.image = pygame.Surface((50, 10))
-        self.image.fill((255,0,0))#colour
+        self.image = bullet_img
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
-        self.downwards = False
+        
 
         
     def update(self):
@@ -149,10 +151,11 @@ class LeftBullet(pygame.sprite.Sprite):
 class DownBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
+        bullet_img = pygame.image.load('images/game/player/bullet.png').convert_alpha()
         self.image = pygame.Surface((10, 50))
-        self.image.fill((255,0,0))#colour
+        self.image = bullet_img
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
-        self.downwards = False
+ 
 
         
     def update(self):
@@ -163,10 +166,11 @@ class DownBullet(pygame.sprite.Sprite):
 class UpBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
+        bullet_img = pygame.image.load('images/game/player/bullet.png').convert_alpha()
         self.image = pygame.Surface((10, 50))
-        self.image.fill((255,0,0))#colour
+        self.image = bullet_img
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
-        self.downwards = False
+
 
         
     def update(self):

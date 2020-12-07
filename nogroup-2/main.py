@@ -52,7 +52,6 @@ screen_flag = "main_menu"
 
 # Application Loop
 while True:
-   
     screen = pygame.display.set_mode((WIDTH, HEIGHT)) # Set screen mode
     
     if screen_flag == "main_menu":
