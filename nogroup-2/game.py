@@ -266,17 +266,16 @@ def Game(screen):
                 
         
             # Test section for timer, lives, score and kill counter 
-            myfont = pygame.font.SysFont('Comic Sans MS', 30)
-            lives = myfont.render(str(player.life), False, (153, 0, 153))
-            timer = myfont.render(str(seconds), False, (153, 0, 153))
-            score_total = myfont.render(str(score), False, (153, 0, 153))
-            kills_total = myfont.render(str(kills), False, (153, 0, 153))
+            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 50)
+            str_lives = str(player.life)
+            str_score = str(score)
+            
+            lives = myfont.render("Lives: " + str_lives, False, (153, 0, 153))
+            score_total = myfont.render("Score: " + str_score, False, (153, 0, 153))
             
           
-            screen.blit(lives,(0,0))
-            screen.blit(timer,(0,750))
-            screen.blit(score_total,(0,250))
-            screen.blit(kills_total,(750,250))
+            screen.blit(lives,(0,20))
+            screen.blit(score_total,(0,80))
        
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))
