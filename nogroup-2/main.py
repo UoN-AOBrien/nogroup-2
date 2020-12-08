@@ -140,7 +140,7 @@ while True:
                                 pygame.mixer.music.pause()
                                 bg_on = False
                         else:
-                            pygame.mixer.music.load('sound/example.mp3')
+                            pygame.mixer.music.load('sound/longspookydogmusic.mp3')
                             pygame.mixer.music.play(-1)
                             bg_on = True
                             
