@@ -49,7 +49,7 @@ bg_on = True
 pygame.mixer.music.load('sound/longspookydogmusic.mp3')
 pygame.mixer.music.play(-1)
 
-menu_sound = pygame.mixer.Sound("sound/music for game/spookymenubuttonpress.mp3")   
+menu_sound = pygame.mixer.Sound("sound/music for game/spookymenubuttonpress.wav")   
 mute = False
 
 screen_flag = "main_menu"

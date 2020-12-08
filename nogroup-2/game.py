@@ -39,12 +39,12 @@ heart_img = pygame.image.load('images/game/boosts/heart1.png')
 def Game(screen, mute):
     global backgrounds_all, backgrounds   
     
-    gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.mp3") 
-    lifeup_sound = pygame.mixer.Sound("sound/music for game/lifeupsound.mp3") 
-    mobgothit_sound = pygame.mixer.Sound("sound/music for game/mobgothit.mp3") 
-    playergothit_sound = pygame.mixer.Sound("sound/music for game/playergothit.mp3") 
-    spookyplayershoot_sound = pygame.mixer.Sound("sound/music for game/spookyplayershoot.mp3") 
-    starbulletpickup_sound = pygame.mixer.Sound("sound/music for game/starbulletpickup.mp3") 
+    gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.wav") 
+    lifeup_sound = pygame.mixer.Sound("sound/music for game/lifeupsound.wav") 
+    mobgothit_sound = pygame.mixer.Sound("sound/music for game/mobgothit.wav") 
+    playergothit_sound = pygame.mixer.Sound("sound/music for game/playergothit.wav") 
+    spookyplayershoot_sound = pygame.mixer.Sound("sound/music for game/spookyplayershoot.wav") 
+    starbulletpickup_sound = pygame.mixer.Sound("sound/music for game/starbulletpickup.wav") 
 
     
     # Initialise clock
