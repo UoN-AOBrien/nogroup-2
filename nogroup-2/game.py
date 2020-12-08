@@ -22,7 +22,7 @@ level_img = pygame.image.load('images/game/background/graveyard (low).jpeg')
 gameover_img = pygame.image.load('images/game/gameover.jpeg')
 
 player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 9)]
-mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 3)]
+mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 4)]
 heart_animations = [pygame.image.load('images/game/boosts/heart' + str(i) + ".png") for i in range (1, 3)]
 
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
@@ -31,8 +31,21 @@ starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
-def Game(screen):
-    global backgrounds_all, backgrounds    
+
+
+
+
+
+def Game(screen, mute):
+    global backgrounds_all, backgrounds   
+    
+    gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.mp3") 
+    lifeup_sound = pygame.mixer.Sound("sound/music for game/lifeupsound.mp3") 
+    mobgothit_sound = pygame.mixer.Sound("sound/music for game/mobgothit.mp3") 
+    playergothit_sound = pygame.mixer.Sound("sound/music for game/playergothit.mp3") 
+    spookyplayershoot_sound = pygame.mixer.Sound("sound/music for game/spookyplayershoot.mp3") 
+    starbulletpickup_sound = pygame.mixer.Sound("sound/music for game/starbulletpickup.mp3") 
+
     
     # Initialise clock
     clock = pygame.time.Clock()
@@ -174,10 +187,14 @@ def Game(screen):
                 
             # Shoots bullet on left click
             if left_click:
+                if mute == False:
+                    pygame.mixer.Sound.play(spookyplayershoot_sound)
                 bullet_group.add(player.create_bullet(bullet_img))
             
             # If player life is 0 game stops
             if player.life == 0:
+                if mute == False:
+                    pygame.mixer.Sound.play(gameover_sound)
                 eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) # Set game over background
                 pygame.display.flip() # update display
                 pygame.time.wait(5000) # wait for 5 seconds i.e. display game over screen
@@ -191,6 +208,8 @@ def Game(screen):
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
                 #This loop adds a mob if a mob dies
                 for hit in mob_hit: 
+                    if mute == False:    
+                        pygame.mixer.Sound.play(mobgothit_sound)
                     m = eng.Mob(mob_animations, level)
                     mob.add(m)
                     kills += 1
@@ -198,7 +217,10 @@ def Game(screen):
             mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) #didnt work when I added it to the above loop for some reason so making a separate loop for now for player bullet.
             # This loop adds a mob if a mob dies
             for hit in mob_player_hit:
-                m = eng.Mob(mob_animations, level)
+                if mute == False:    
+                    pygame.mixer.Sound.play(mobgothit_sound)
+                
+                m = eng.Mob(mob_animations, level) 
                 mob.add(m)
                 kills += 1
             
@@ -206,6 +228,8 @@ def Game(screen):
             # Mob is removed to prevent too many collisions and loss of multiple lives
             player_hit = pygame.sprite.spritecollide(player, mob, True) 
             if player_hit:
+                if mute == False:
+                    pygame.mixer.Sound.play(playergothit_sound)
                 player.life -= 1
                 mob.remove(m)
                 m = eng.Mob(mob_animations, level)
@@ -217,6 +241,8 @@ def Game(screen):
             # Heart is removed to prevent too many collisions and gaining of multiple lives
             life_up = pygame.sprite.spritecollide(player, heart, True) 
             if life_up:
+                if mute == False:
+                    pygame.mixer.Sound.play(lifeup_sound)
                 player.life += 1
                 heart.remove(h)
             
@@ -232,6 +258,9 @@ def Game(screen):
             # Bullet is removed to prevent too many collisions and gaining of multiple, multiple bullets
             bullet_up = pygame.sprite.spritecollide(player, starbullet, True)
             if bullet_up:
+                if mute == False:
+                    pygame.mixer.Sound.play(starbulletpickup_sound)
+                    pygame.mixer.Sound.play(spookyplayershoot_sound)
                 leftbullet_group.add(player.create_leftbullet(bullet_img))
                 downbullet_group.add(player.create_downbullet(bullet_img))
                 rightbullet_group.add(player.create_rightbullet(bullet_img))
