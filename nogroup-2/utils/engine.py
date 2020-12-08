@@ -107,13 +107,15 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
         self.rect.x = random.randrange(screen_width + 100, screen_width+500)
         self.speedx = random.randrange(5, 10) * self.level# randomise their speed
+        self.speedy = random.randrange(-2, 2)
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
+        self.rect.y -= self.speedy #speed of y
         self.mob_frame_loop += 1
         self.mob_frame = (self.mob_frame_loop // 5) % 2
         self.image = pygame.transform.scale(self.images[self.mob_frame], (100, 100))
-        if self.rect.x <= -100:
+        if self.rect.x <= -100 or self.rect.y < -25 or self.rect.y > screen_height + 25: #mobs would take too long to travel to -100 so they respawn when they get to y < - 25 and y > sh + 25
             self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
             self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
             self.speedx = random.randrange(5, 10) * self.level# randomise their speed
