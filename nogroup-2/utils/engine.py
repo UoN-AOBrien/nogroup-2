@@ -194,14 +194,14 @@ class Heart(pygame.sprite.Sprite): #spawn enemies
         self.image = heart_img
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = screen_width + self.rect.width  # spawn in a random place to the right of the screen
+        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   # spawn in a random place to the right of the screen
         self.speedx = random.randrange(5, 10)  # randomise their speed
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
         if self.rect.x <= -100:
             self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = screen_width + self.rect.width  # spawn in a random place to the right of the screen
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   # spawn in a random place to the right of the screen
             self.speedx = random.randrange(5, 10) # randomise their speed
 #currently new mobs dont spanwn, in the futuer after a mob dies, new one will spawn. need to do collision mehcanic first
      
@@ -217,16 +217,17 @@ class StarBullet(pygame.sprite.Sprite): #spawn enemies
         self.image = starbullet_img
         self.rect = self.image.get_rect()
         self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = screen_width + self.rect.width  # spawn in a random place to the right of the screen
+        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
         self.speedx = random.randrange(5, 10)  # randomise their speed
 
     def update(self):
         self.rect.x -= self.speedx #mobs go in left direction
         if self.rect.x <= -100:
             self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = screen_width + self.rect.width  # spawn in a random place to the right of the screen
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   # spawn in a random place to the right of the screen
             self.speedx = random.randrange(5, 10) # randomise their speed
 #currently new mobs dont spanwn, in the futuer after a mob dies, new one will spawn. need to do collision mehcanic first
+
      
         if self.rect.x <= -self.rect.width: #if bullet goes too far to the right,
             self.kill()

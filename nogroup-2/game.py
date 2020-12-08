@@ -223,7 +223,9 @@ def Game(screen):
             # Caps the amount of lives the player can gain
             # Spawns a new life every 20 to 30 seconds
             if player.life < 5:
-                if seconds % (random.randint(20, 30)) == 0:
+                if seconds % 25 == 0:
+                    h.rect.y = random.randrange(HEIGHT - h.rect.height)  # spanwns them on x axis outside of screen to the right
+                    h.rect.x = random.randrange(WIDTH + 100, WIDTH + 500)  # spawn in a random place to the right of the screen
                     heart.add(h)
             
             # If the player is touches bullet, cause bullets to shoot in 4 directions
@@ -238,6 +240,8 @@ def Game(screen):
                 
             # Spawns a new star bullet every 30 seconds    
             if seconds % 20 == 0:
+                s.rect.y = random.randrange(HEIGHT- s.rect.height)  # spanwns them on x axis outside of screen to the right
+                s.rect.x = random.randrange(WIDTH + 100,WIDTH + 500)  # spawn in a random place to the right of the screen
                 starbullet.add(s)  
                 
             
