@@ -9,6 +9,7 @@ Created on Tue Nov 17 11:46:22 2020
 import pygame
 import game
 import utils.engine as eng
+import boss
 
 # Global variables
 WIDTH = 800
