@@ -313,7 +313,7 @@ def Game(screen, mute):
             
             
             if score > 1000:
-                boss.Boss(screen,mute, score)
+                boss.Boss(screen,mute)
        
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))

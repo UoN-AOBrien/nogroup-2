@@ -38,7 +38,7 @@ heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
 
-def Boss(screen, mute, score):
+def Boss(screen, mute):
     global backgrounds_all, backgrounds   
     
     gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.wav") 
@@ -107,6 +107,7 @@ def Boss(screen, mute, score):
         starbullet.add(s)  
     
     # Score and a separate variable for kill counter
+    score = 0
     kills = 0
     level = 1
     
