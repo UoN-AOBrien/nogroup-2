@@ -8,6 +8,7 @@ Created on Tue Nov 17 12:14:29 2020
 import pygame
 import utils.engine as eng
 import random
+import boss
 
 # Global variables
 WIDTH = 1600
@@ -309,6 +310,10 @@ def Game(screen, mute):
           
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
+            
+            
+            if score > 1000:
+                boss.Boss(screen,mute, score)
        
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))

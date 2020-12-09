@@ -235,31 +235,12 @@ class StarBullet(pygame.sprite.Sprite): #spawn enemies
             
             
             
+            
+            
+    
 def Mute(mute):
     return FuncPeggy.Mute()
 
-
-
-
-class BossBullet(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 10))
-        self.image.fill((255,0,0))#colour
-        
-        self.rect = self.image.get_rect()
-        self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = random.randrange(screen_width + 100, screen_width+500)
-        self.speedx = random.randrange(5, 10) * 3# randomise their speed
-        
-        
-    def update(self):
-        self.rect.x -= self.speedx #mobs go in left direction
-
-        if self.rect.x <= -100:
-            self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(5, 10) * 3# randomise their speed
 
 
 
