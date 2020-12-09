@@ -34,15 +34,10 @@ starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
-
-
-
-
-
 def Game(screen, mute):
     global backgrounds_all, backgrounds   
     
-    
+    # We do not own sfx sounds 
     # Souce: 
     gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.wav") 
     lifeup_sound = pygame.mixer.Sound("sound/music for game/lifeupsound.wav") 
@@ -135,14 +130,17 @@ def Game(screen, mute):
     game_running = True
     state = game_running
     while game_running:
-        
         # Event loop
-        mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
+        # Get mouse location
+        mouse_xpos, mouse_ypos = pygame.mouse.get_pos() 
         left_click = False
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: # Window close event
+            # Window close event
+            if event.type == pygame.QUIT: 
                 eng.Shutdown()
-            if event.type == pygame.KEYDOWN: # Key down events
+            
+            # Key down events for escape button and pause button 
+            if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_ESCAPE:
                     game_running = False
                 if event.key == pygame.K_p:
@@ -150,17 +148,21 @@ def Game(screen, mute):
                         state = game_running
                     elif state == game_running:
                         state = pause
-            if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
+                        
+            # Mouse click down
+            if event.type == pygame.MOUSEBUTTONDOWN: 
                 if event.button == 1:
                     left_click = True
-                    
+         
+        # State and game running used for pausing screen
+        # If the game isn't paused...
         if state == game_running:
             
             """ SCROLL BACKGROUND """
             for i in range(2):
                 scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], FRAMERATE, scroll_bg[i])
                 
-            # reset loop
+            # Reset loop
             if scroll_bg[1] < 0:
                 scroll_bg = [0, WIDTH]
                 bg[0] = bg[1]
@@ -179,7 +181,8 @@ def Game(screen, mute):
                 eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
                 offset = pygame.time.get_ticks() // 1000 # set offset for game timer
                 backgrounds = backgrounds_all[level % 2]
-                
+            
+            # Seconds and kills combine to form total score shown to player
             seconds = total_seconds % 60
             if kills > 1 or kills == 1:
                 score = seconds + (kills*5)
@@ -188,7 +191,7 @@ def Game(screen, mute):
             
             
             """ PLAYER MECHANICS """
-            # increment player frame
+            # Increment player frame
             player_loop += 1
             if player_loop >= FRAMERATE // (len(player_animations) * speed): # Sync player roll to background
                 player_loop = 0
@@ -203,13 +206,15 @@ def Game(screen, mute):
                 bullet_group.add(player.create_bullet(bullet_img))
             
             # If player life is 0 game stops
+            # Set game over background and updates with wait time
+            # Loop stops and game exits
             if player.life == 0:
                 if mute == False:
                     pygame.mixer.Sound.play(gameover_sound)
-                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) # Set game over background
-                pygame.display.flip() # update display
-                pygame.time.wait(5000) # wait for 5 seconds i.e. display game over screen
-                game_running = False #if player is hit by mob, loop stops and game exits
+                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) 
+                pygame.display.flip() 
+                pygame.time.wait(5000) 
+                game_running = False 
             
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
@@ -217,15 +222,16 @@ def Game(screen, mute):
             bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
             for bullet in bullet_groups:
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
-                #This loop adds a mob if a mob dies
+                # This loop adds a mob if a mob dies
                 for hit in mob_hit: 
                     if mute == False:    
                         pygame.mixer.Sound.play(mobgothit_sound)
                     m = eng.Mob(mob_animations, level)
                     mob.add(m)
                     kills += 1
-    
-            mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) #didnt work when I added it to the above loop for some reason so making a separate loop for now for player bullet.
+            
+            # Separate loop for now for player bullet
+            mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) 
             # This loop adds a mob if a mob dies
             for hit in mob_player_hit:
                 if mute == False:    
@@ -248,7 +254,7 @@ def Game(screen, mute):
                 
                 
             """ BOOSTS """
-            # If the player is touches heart gains a life
+            # If the player touches heart boost gains a life
             # Heart is removed to prevent too many collisions and gaining of multiple lives
             life_up = pygame.sprite.spritecollide(player, heart, True) 
             if life_up:
@@ -265,8 +271,8 @@ def Game(screen, mute):
                     h.rect.x = random.randrange(WIDTH + 100, WIDTH + 500)  # spawn in a random place to the right of the screen
                     heart.add(h)
             
-            # If the player is touches bullet, cause bullets to shoot in 4 directions
-            # Bullet is removed to prevent too many collisions and gaining of multiple, multiple bullets
+            # If the player touches starbullet, cause bullets to shoot in 4 directions
+            # Bullet boost is removed to prevent too many collisions and gaining of multiple, multiple bullets
             bullet_up = pygame.sprite.spritecollide(player, starbullet, True)
             if bullet_up:
                 if mute == False:
@@ -322,7 +328,7 @@ def Game(screen, mute):
             screen.blit(score_total,(0,80))
             
             # If score is high enough boss screen will be shown
-            if score > 50:
+            if seconds > 120:
                 boss.Boss(screen, mute)
                 
        

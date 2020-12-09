@@ -14,9 +14,6 @@ import utils.harri as FuncHarri
 import utils.hongyuan as FuncHongyuan
 import utils.peggy as FuncPeggy
 
-
-
-
 # Classes and Functions
 
 # Shutdown application
@@ -52,9 +49,11 @@ def DrawScrollBackground(window, width, speed, image, fps, x):
 screen_width = 1600
 screen_height = 900
 
+# Player class 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image):
         super().__init__()
+        # Player image loaded in 
         self.image = pygame.transform.scale(image, (100, 100))
         self.rect = self.image.get_rect(center=(screen_width/2,screen_height/2))
         self.life = 1
@@ -62,26 +61,29 @@ class Player(pygame.sprite.Sprite):
     def update(self, image):
         self.image = pygame.transform.scale(image, (100, 100))
         self.rect.center = pygame.mouse.get_pos()
-        
+     
+    # Return bullets and has the position of wherever the mouse is
     def create_rightbullet(self, image):
-        return RightBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) #return bullet and has the position of wherever the mouse is
+        return RightBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) 
 
     def create_leftbullet(self, image):
-        return LeftBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) #return bullet and has the position of wherever the mouse is
+        return LeftBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) 
 
     def create_downbullet(self, image):
-        return DownBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) #return bullet and has the position of wherever the mouse is
+        return DownBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) 
 
     def create_upbullet(self, image):
-        return UpBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) #return bullet and has the position of wherever the mouse is
+        return UpBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image)
 
     def create_bullet(self, image):
-        return Bullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) #return bullet and has the position of wherever the mouse is
+        return Bullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1], image) 
 
 
+# Bullet class 
 class Bullet(pygame.sprite.Sprite):
    def __init__(self,pos_x, pos_y, image):
        super().__init__()
+       # Bullet image loaded in 
        bullet_img = image.convert_alpha()
        self.image = pygame.Surface((50, 10))
        self.image = bullet_img
@@ -90,13 +92,14 @@ class Bullet(pygame.sprite.Sprite):
 
    def update(self):
        self.rect.x += 10
+       #If bullet goes too far to the right, bullet will destroy itself to save memory and improve performance
+       if self.rect.x >= screen_width + 200: 
+           self.kill() 
 
-       if self.rect.x >= screen_width + 200: #if bullet goes too far to the right,
-           self.kill() #bullet will destroy itself to save memory and improve performance
-
-
-class Mob(pygame.sprite.Sprite): #spawn enemies
+# Mob class
+class Mob(pygame.sprite.Sprite):
     def __init__(self, images, level):
+        # Animation loops for mobs
         self.mob_frame_loop = 0
         self.mob_frame = 0
         self.images = images
@@ -104,25 +107,32 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.scale(images[self.mob_frame], (100, 100))
         self.rect = self.image.get_rect()
-        self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
+        
+        # Spanwns them on x axis outside of screen to the right and in a random place to the right of the screen
+        # Randomise their speed along with level
+        self.rect.y = random.randrange(screen_height - self.rect.height)
         self.rect.x = random.randrange(screen_width + 100, screen_width+500)
-        self.speedx = random.randrange(5, 10) * self.level# randomise their speed
+        self.speedx = random.randrange(5, 10) * self.level
         self.speedy = random.randrange(-2, 2)
 
     def update(self):
-        self.rect.x -= self.speedx #mobs go in left direction
+        #mobs go in left direction
+        self.rect.x -= self.speedx 
         self.rect.y -= self.speedy #speed of y
         self.mob_frame_loop += 1
         self.mob_frame = (self.mob_frame_loop // 5) % 2
         self.image = pygame.transform.scale(self.images[self.mob_frame], (100, 100))
-        if self.rect.x <= -100 or self.rect.y < -25 or self.rect.y > screen_height + 25: #mobs would take too long to travel to -100 so they respawn when they get to y < - 25 and y > sh + 25
-            self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(5, 10) * self.level# randomise their speed
+        
+        # Mobs would take too long to travel to -100 so they respawn when they get to y < - 25 and y > sh + 25
+        if self.rect.x <= -100 or self.rect.y < -25 or self.rect.y > screen_height + 25: 
+            self.rect.y = random.randrange(screen_height - self.rect.height)  
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  
+            self.speedx = random.randrange(5, 10) * self.level
 
 
 
 #%% Peggy's code
+# Bullets in various directions to be used for the star bullet boost
 class RightBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x, pos_y, image):
         super().__init__()
@@ -135,8 +145,9 @@ class RightBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.x += 5
-        if self.rect.x >= screen_width + 100: #if bullet goes too far to the right,
-            self.kill() #bullet will destroy itself to save memory and improve performance
+        # If bullet goes too far to the right, bullet will destroy itself to save memory and improve performance
+        if self.rect.x >= screen_width + 100: 
+            self.kill() 
             
 class LeftBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x, pos_y, image):
@@ -150,8 +161,9 @@ class LeftBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.x -= 5
-        if self.rect.x < -100: #if bullet goes too far to the left,
-            self.kill() #bullet will destroy itself to save memory and improve performance
+        # If bullet goes too far to the left, bullet will destroy itself to save memory and improve performance
+        if self.rect.x < -100: 
+            self.kill() 
        
         
 class DownBullet(pygame.sprite.Sprite):
@@ -167,8 +179,9 @@ class DownBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.y += 5
-        if self.rect.y >= screen_height + 100: #if bullet goes too far down,
-            self.kill() #bullet will destroy itself to save memory and improve performance
+        # If bullet goes too far down, bullet will destroy itself to save memory and improve performance
+        if self.rect.y >= screen_height + 100: 
+            self.kill() 
        
 class UpBullet(pygame.sprite.Sprite):
     def __init__(self,pos_x, pos_y, image):
@@ -183,59 +196,71 @@ class UpBullet(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.y -= 5
-        if self.rect.x < -100: #if bullet goes too far to up,
-            self.kill() #bullet will destroy itself to save memory and improve performance
+        # If bullet goes too far to up, bullet will destroy itself to save memory and improve performance
+        if self.rect.x < -100: 
+            self.kill() 
        
                
-            
-class Heart(pygame.sprite.Sprite): #spawn enemies
+# Heart Life up class           
+class Heart(pygame.sprite.Sprite): 
     def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
+        # Image for heart added 
         heart_img = image.convert_alpha()
         heart_img = pygame.transform.scale(heart_img, (100, 100))
         self.image = heart_img
         self.rect = self.image.get_rect()
-        self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   # spawn in a random place to the right of the screen
-        self.speedx = random.randrange(5, 10)  # randomise their speed
+        
+        # Spanwns them on x axis outside of screen to the right
+        # Spawn in a random place to the right of the screen
+        # Randomises speed movement using speedx 
+        self.rect.y = random.randrange(screen_height - self.rect.height)
+        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  
+        self.speedx = random.randrange(5, 10) 
 
     def update(self):
-        self.rect.x -= self.speedx #mobs go in left direction
+        # Boosts go in left direction
+        self.rect.x -= self.speedx 
         if self.rect.x <= -100:
-            self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(5, 10) # randomise their speed
-#currently new mobs dont spanwn, in the futuer after a mob dies, new one will spawn. need to do collision mehcanic first
+            self.rect.y = random.randrange(screen_height - self.rect.height)  
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   
+            self.speedx = random.randrange(5, 10) 
      
-        if self.rect.x <= -self.rect.width: #if bullet goes too far to the right,
+        # If heart goes too far to the right remove the heart
+        if self.rect.x <= -self.rect.width: 
             self.kill()
             
-            
-class StarBullet(pygame.sprite.Sprite): #spawn enemies
+
+# Star bullet boost class 
+class StarBullet(pygame.sprite.Sprite):
     def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
+        # Image for star bullet added
         starbullet_img = image.convert_alpha()
         starbullet_img = pygame.transform.scale(starbullet_img, (100, 100))
         self.image = starbullet_img
         self.rect = self.image.get_rect()
-        self.rect.y = random.randrange(screen_height - self.rect.height)#spanwns them on x axis outside of screen to the right
-        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  # spawn in a random place to the right of the screen
-        self.speedx = random.randrange(5, 10)  # randomise their speed
+        
+        # Spanwns them on x axis outside of screen to the right
+        # Spawn in a random place to the right of the screen
+        # Randomises speed movement using speedx 
+        self.rect.y = random.randrange(screen_height - self.rect.height) 
+        self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  
+        self.speedx = random.randrange(5, 10)  
 
     def update(self):
-        self.rect.x -= self.speedx #mobs go in left direction
+        # Boosts go in left direction
+        self.rect.x -= self.speedx 
         if self.rect.x <= -100:
-            self.rect.y = random.randrange(screen_height - self.rect.height)  # spanwns them on x axis outside of screen to the right
-            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   # spawn in a random place to the right of the screen
-            self.speedx = random.randrange(5, 10) # randomise their speed
+            self.rect.y = random.randrange(screen_height - self.rect.height)  
+            self.rect.x = random.randrange(screen_width + 100, screen_width + 500)   
+            self.speedx = random.randrange(5, 10) 
 
-     
-        if self.rect.x <= -self.rect.width: #if bullet goes too far to the right,
+        # If star bullet goes too far to the right remove the star bullet
+        if self.rect.x <= -self.rect.width: 
             self.kill()
             
-            
-            
-            
+# Mute function for sfx button          
 def Mute(mute):
     return FuncPeggy.Mute()
 
