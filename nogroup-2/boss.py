@@ -32,7 +32,8 @@ bullet_img = pygame.image.load('images/game/player/bullet.png')
 starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
-
+victory1_ img = pygame.image.load('images/game/victory1.jpeg')
+victory2_ img = pygame.image.load('images/game/victory2.jpeg')
 
 
 
@@ -323,6 +324,12 @@ def Boss(screen, mute):
             
             
             
+            
+            if boss_life == 0:
+                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory1_img)
+                pygame.time.wait(2000) 
+                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory2_img)
+                
 
             
        
