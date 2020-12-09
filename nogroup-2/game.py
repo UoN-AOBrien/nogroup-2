@@ -8,6 +8,7 @@ Created on Tue Nov 17 12:14:29 2020
 import pygame
 import utils.engine as eng
 import random
+import boss
 
 # Global variables
 WIDTH = 1600
@@ -19,7 +20,9 @@ backgrounds_all = [[pygame.image.load('images/game/background/garden (low).jpeg'
                    [pygame.image.load('images/game/background/graveyard (high).jpeg')]]
 backgrounds = backgrounds_all[1]
 level_img = pygame.image.load('images/game/background/graveyard (low).jpeg')
+
 gameover_img = pygame.image.load('images/game/gameover.jpeg')
+
 
 player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 9)]
 mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 4)]
@@ -148,7 +151,7 @@ def Game(screen, mute):
             """ SCROLL BACKGROUND """
             for i in range(2):
                 scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], FRAMERATE, scroll_bg[i])
-            
+                
             # reset loop
             if scroll_bg[1] < 0:
                 scroll_bg = [0, WIDTH]
@@ -309,6 +312,10 @@ def Game(screen, mute):
           
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
+            
+            if score > 50:
+                boss.Boss(screen, mute)
+                
        
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))

@@ -36,8 +36,6 @@ heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
 
-
-
 def Boss(screen, mute):
     global backgrounds_all, backgrounds   
     
@@ -113,9 +111,6 @@ def Boss(screen, mute):
     
     boss_life = 20
     
-    """ Display Level Screen """
-    eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
-    offset = pygame.time.get_ticks() // 1000 # set offset for game timer
 
     # init background
     scroll_bg = [0, WIDTH]
@@ -169,12 +164,6 @@ def Boss(screen, mute):
             # Code is built from http://programarcadegames.com/python_examples/f.php?file=timer.py
             # Also calculates score based on time spent in game and number of kills
             total_seconds = (pygame.time.get_ticks() // 1000) - offset
-            
-            if total_seconds >= 30:
-                level += 1
-                eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
-                offset = pygame.time.get_ticks() // 1000 # set offset for game timer
-                backgrounds = backgrounds_all[level % 2]
                 
             seconds = total_seconds % 60
             if kills > 1 or kills == 1:

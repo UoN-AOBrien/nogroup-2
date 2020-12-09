@@ -21,6 +21,8 @@ options_img = pygame.image.load('images/menu/options.jpeg')
 quit_img = pygame.image.load('images/menu/quit.jpeg')
 background_img = pygame.image.load('images/menu/background.png')
 
+comic1_img = pygame.image.load('images/comic1.jpeg')
+comic2_img = pygame.image.load('images/comic2.jpeg')
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
 
 bgmusic_img = pygame.image.load('images/menu/options/bgmusic.jpeg')
@@ -89,7 +91,14 @@ while True:
             
         back_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, back_img)
         
-        
+    elif screen_flag == "comic_1":
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, comic1_img) 
+    
+    elif screen_flag == "comic_2":
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, comic2_img) 
+
+
+    
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
         pygame.display.set_caption("Cheat Sheet")
@@ -111,7 +120,8 @@ while True:
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
                             pygame.mixer.Sound.play(menu_sound)
-                        screen_flag = "cheat_sheet"
+                        screen_flag = "comic_1"
+                    
                         
                     if options_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
@@ -149,6 +159,12 @@ while True:
                             pygame.mixer.Sound.play(menu_sound)
                             
                         mute = eng.FuncPeggy.Mute(mute)
+                        
+                elif screen_flag == "comic_1":
+                     screen_flag = "comic_2"
+                     
+                elif screen_flag == "comic_2":
+                    screen_flag = "cheat_sheet"
                         
                         
                         
