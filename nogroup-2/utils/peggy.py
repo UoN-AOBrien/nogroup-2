@@ -13,7 +13,8 @@ import utils.alex as FuncAlex
 import utils.harri as FuncHarri
 import utils.hongyuan as FuncHongyuan
 
-
+# Mute function used to change mute values between true and false 
+# Returns mute value for use 
 def Mute(mute):
     if mute == True:
         mute = False
