@@ -121,6 +121,22 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
             self.speedx = random.randrange(5, 10) * self.level# randomise their speed
 
 
+class Boss(pygame.sprite.Sprite):  # spawn boss
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((30, 40))
+        self.image.fill((0, 255, 0))
+        self.rect = self.image.get_rect()
+        self.rect.y = (screen_height // 2)  # spawns in center of screen
+        self.rect.x = screen_width - 25 #spawns just on the left of the edge
+        self.speedy = 4
+
+    def update(self):
+        self.rect.y += self.speedy  # mobs go in left direction
+
+        if self.rect.y == 0 or self.rect.y == screen_height:
+            self.speedy = self.speedy * -1  # changes direction of y speed
+
 
 #%% Peggy's code
 class RightBullet(pygame.sprite.Sprite):

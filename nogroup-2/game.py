@@ -101,8 +101,8 @@ def Game(screen, mute):
     starbullet = pygame.sprite.Group()
     for i in range(1):#no of hearts
         s = eng.StarBullet(starbullet_img)
-        starbullet.add(s)  
-    
+        starbullet.add(s)
+
     # Score and a separate variable for kill counter
     score = 0
     kills = 0

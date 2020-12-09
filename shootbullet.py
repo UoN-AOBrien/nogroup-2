@@ -56,17 +56,11 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
         self.rect.x = screen_width - 25
         self.speedy = 4
 
-        #if self.rect.y >= 0:
-        #    self.speedy = 4
-       # elif self.rect.y >= screen_height:
-         #   self.speedy = -4
-
     def update(self):
         self.rect.y += self.speedy #mobs go in left direction
 
-
         if self.rect.y == 0 or self.rect.y == screen_height:
-            self.speedy = self.speedy * -1
+            self.speedy = self.speedy * -1 #changes direction of y speed
 
 
 
