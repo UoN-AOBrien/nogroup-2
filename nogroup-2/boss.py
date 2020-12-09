@@ -39,6 +39,8 @@ heart_img = pygame.image.load('images/game/boosts/heart1.png')
 def Boss(screen, mute):
     global backgrounds_all, backgrounds   
     
+    # We do not own sfx sounds 
+    # Source: 
     gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.wav") 
     lifeup_sound = pygame.mixer.Sound("sound/music for game/lifeupsound.wav") 
     mobgothit_sound = pygame.mixer.Sound("sound/music for game/mobgothit.wav") 
@@ -82,10 +84,10 @@ def Boss(screen, mute):
     upbullet_group = pygame.sprite.Group()
     
     # Mob group
-    # With adjustable number of mobs
+    # With adjustable number of mobs using mob_number
     mob = pygame.sprite.Group()
     mob_number = 5
-    for i in range(mob_number):#no of mobs
+    for i in range(mob_number):
         m = eng.Mob(mob_animations, 1)
         mob.add(m)
         
@@ -93,14 +95,14 @@ def Boss(screen, mute):
     # With adjustable number of hearts
     heart = pygame.sprite.Group()
     heart_number = 1
-    for i in range(heart_number):#no of hearts
+    for i in range(heart_number):
         h = eng.Heart(heart_img)
         heart.add(h)
         
     # Bullet star group
     # With adjustable number of bullet stars
     starbullet = pygame.sprite.Group()
-    for i in range(1):#no of hearts
+    for i in range(1):
         s = eng.StarBullet(starbullet_img)
         starbullet.add(s)  
     
@@ -294,7 +296,7 @@ def Boss(screen, mute):
     
                 
         
-            # Test section for timer, lives, score and kill counter 
+            # Section to write score and lives to screen 
             myfont = pygame.font.SysFont(pygame.font.get_default_font(), 50)
             str_lives = str(player.life)
             str_score = str(score)
@@ -302,6 +304,8 @@ def Boss(screen, mute):
             lives = myfont.render("Lives: " + str_lives, False, (153, 0, 153))
             score_total = myfont.render("Score: " + str_score, False, (153, 0, 153))
             
+            
+            # Draws boss life bar at the bottom of the screen 
             pygame.draw.rect(screen, BLACK ,(50, 800, 800, 50))
             pygame.draw.rect(screen, GREEN, (50, 800, (40*(boss_life)), 50))
             
@@ -321,6 +325,7 @@ def Boss(screen, mute):
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
        
+        # If the game is paused the instructions are shown on screen
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))
 

@@ -47,36 +47,50 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 screen.fill(pygame.Color("Black")) 
 pygame.display.flip()
 
+# Variables for bg music, sfx and screen flags for navigation
 bg_on = True
+mute = False
+screen_flag = "main_menu"
+
+# Loads music 
 pygame.mixer.music.load('sound/longspookydogmusic.mp3')
 pygame.mixer.music.play(-1)
 
+# Loads menu sfx
+# Source: 
 menu_sound = pygame.mixer.Sound("sound/music for game/spookymenubuttonpress.wav")   
-mute = False
 
-screen_flag = "main_menu"
+
+
 
     
 
 # Application Loop
 while True:
-    screen = pygame.display.set_mode((WIDTH, HEIGHT)) # Set screen mode
-    pygame.mouse.set_visible(True) # Ensure mouse is visible
+    # Set screen mode
+    # Ensure mouse is visible
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.mouse.set_visible(True) 
     
+    # Use of screen flags to navigate through the main menu
+    # Set screen title of main menu
+    # Set menu background image 
     if screen_flag == "main_menu":
-        pygame.display.set_caption("Main Menu") # Set screen title
-        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) # Set menu background
+        pygame.display.set_caption("Main Menu") 
+        eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img) 
         
         # Draw main menu buttons
         play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, play_img)
         options_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, options_img)
         quit_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, quit_img)
     
-    
+    # Repeat for options menu
     elif screen_flag == "options":
         pygame.display.set_caption("Options")
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, background_img)
         
+        # Draw options buttons, includes an on/ off img version for each button
+        # bg_on and mute used to determine which img version to use
         if bg_on == True:
             bgmusic_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 3, bgmusic_img)
         elif bg_on == False:
@@ -88,9 +102,10 @@ while True:
         elif mute == True:
             sfx_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 4, sfxoff_img)
 
-            
+        # Back button used to navigate back to main menu if needed   
         back_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5, back_img)
-        
+    
+    # Screen flags here for comic images 
     elif screen_flag == "comic_1":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, comic1_img) 
     
@@ -98,7 +113,9 @@ while True:
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, comic2_img) 
 
 
-    
+    # Screen flags here for cheat sheet after the comics have been cycled through
+    # Includes play button which will lead to the game screen 
+    # Game takes mute in order to maintain sfx choices made earlier
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
         pygame.display.set_caption("Cheat Sheet")
@@ -109,34 +126,45 @@ while True:
         game.Game(screen, mute)
         
     
-        
-    mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
+    # Click down events for buttons
+    # With each click of a button a screen flag is triggered sending player to another screen    
+    # Get mouse location
+    mouse_xpos, mouse_ypos = pygame.mouse.get_pos() 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: # Window close event
+        # Window close event
+        if event.type == pygame.QUIT: 
             eng.Shutdown()
-        if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
+        # Click down events
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
+                # All button events for main menu here
+                # Includes play, options and quit
+                # Use of mute variable to play/ not play a sfx
                 if screen_flag == "main_menu":
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
                             pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "comic_1"
-                    
-                        
                     if options_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
                             pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "options"
-                        
                     if quit_button.collidepoint(mouse_xpos, mouse_ypos):
                         eng.Shutdown()
                         
+                # Cheat sheet shows instructions with a play button which takes
+                # player to the game screen 
                 elif screen_flag == "cheat_sheet":
                     if play_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
                             pygame.mixer.Sound.play(menu_sound)
                         screen_flag = "game"
-                        
+                
+                # Options menu button events here 
+                # If back button is pressed player is taken back to main menu
+                # Bg music button changes depending on click and previous bg_on value
+                # Repeated for sfx
+                # Mute function used to allow for storage and changing of mute variable
                 elif screen_flag == "options":
                     if back_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
@@ -157,9 +185,10 @@ while True:
                     if sfx_button.collidepoint(mouse_xpos, mouse_ypos):
                         if mute == False:
                             pygame.mixer.Sound.play(menu_sound)
-                            
                         mute = eng.FuncPeggy.Mute(mute)
-                        
+                
+                # comic1 and comic2 is chained with each other
+                # Requires a click to go to next one 
                 elif screen_flag == "comic_1":
                      screen_flag = "comic_2"
                      
