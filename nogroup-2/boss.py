@@ -1,31 +1,30 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 17 12:14:29 2020
+Created on Tue Dec  8 19:05:08 2020
 
-@author: Alex
+@author: wongp
 """
-
 import pygame
 import utils.engine as eng
 import random
-import boss
+
 
 # Global variables
 WIDTH = 1600
 HEIGHT = 900
 FRAMERATE = 60
+GREEN = (0, 255, 0)
+BLACK = (0,0,0)
 
 # Load assests
 backgrounds_all = [[pygame.image.load('images/game/background/garden (low).jpeg')],
                    [pygame.image.load('images/game/background/graveyard (high).jpeg')]]
 backgrounds = backgrounds_all[1]
 level_img = pygame.image.load('images/game/background/graveyard (low).jpeg')
-
 gameover_img = pygame.image.load('images/game/gameover.jpeg')
 
-
 player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".png") for i in range (1, 9)]
-mob_animations = [pygame.image.load('images/game/mob/mob' + str(i) + ".png") for i in range (1, 4)]
+mob_animations = [pygame.image.load('images/game/mob/woof' + str(i) + ".png") for i in range (1, 3)]
 heart_animations = [pygame.image.load('images/game/boosts/heart' + str(i) + ".png") for i in range (1, 3)]
 
 cheatsheet_img = pygame.image.load('images/cheatsheet.png')
@@ -37,9 +36,7 @@ heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
 
-
-
-def Game(screen, mute):
+def Boss(screen, mute):
     global backgrounds_all, backgrounds   
     
     gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.wav") 
@@ -57,6 +54,10 @@ def Game(screen, mute):
     # Initialise screen
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     screen.fill(pygame.Color("White")) 
+    
+    
+    
+    
     pygame.display.flip()
     
     # Set screen title
@@ -108,11 +109,8 @@ def Game(screen, mute):
     kills = 0
     level = 1
     
+    boss_life = 20
     
-    
-    """ Display Level Screen """
-    eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
-    offset = pygame.time.get_ticks() // 1000 # set offset for game timer
 
     # init background
     scroll_bg = [0, WIDTH]
@@ -121,12 +119,15 @@ def Game(screen, mute):
         index = random.randint(0, len(backgrounds)-1)
         bg[i] = backgrounds[index]
     
+    
+    
     speed = 2
     
     pause = False
     game_running = True
     state = game_running
     while game_running:
+        
         
         # Event loop
         mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
@@ -147,11 +148,10 @@ def Game(screen, mute):
                     left_click = True
                     
         if state == game_running:
-            
             """ SCROLL BACKGROUND """
             for i in range(2):
                 scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], FRAMERATE, scroll_bg[i])
-                
+            
             # reset loop
             if scroll_bg[1] < 0:
                 scroll_bg = [0, WIDTH]
@@ -159,18 +159,11 @@ def Game(screen, mute):
                 index = random.randint(0, len(backgrounds)-1)
                 bg[1] = backgrounds[index]
             
-            
             """ TIMER AND SCORE """
             # Calculates the total number of seconds at current point in time
             # Code is built from http://programarcadegames.com/python_examples/f.php?file=timer.py
             # Also calculates score based on time spent in game and number of kills
             total_seconds = (pygame.time.get_ticks() // 1000) - offset
-            
-            if total_seconds >= 30:
-                level += 1
-                eng.DrawLevelScreen(screen, WIDTH, HEIGHT, level_img, level)
-                offset = pygame.time.get_ticks() // 1000 # set offset for game timer
-                backgrounds = backgrounds_all[level % 2]
                 
             seconds = total_seconds % 60
             if kills > 1 or kills == 1:
@@ -309,13 +302,24 @@ def Game(screen, mute):
             lives = myfont.render("Lives: " + str_lives, False, (153, 0, 153))
             score_total = myfont.render("Score: " + str_score, False, (153, 0, 153))
             
+            pygame.draw.rect(screen, BLACK ,(50, 800, 800, 50))
+            pygame.draw.rect(screen, GREEN, (50, 800, (40*(boss_life)), 50))
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            
+            
+            
           
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
-            
-            if score > 50:
-                boss.Boss(screen, mute)
-                
        
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))
@@ -323,3 +327,7 @@ def Game(screen, mute):
         # Add to frame count for the timer
         clock.tick(FRAMERATE)
         pygame.display.flip()
+    
+    
+    
+    
