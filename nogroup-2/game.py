@@ -57,7 +57,7 @@ def Game(screen, mute):
     pygame.display.flip()
     
     # Set screen title
-    pygame.display.set_caption("Game") 
+    pygame.display.set_caption("Bone Voyage") 
     
     pygame.mouse.set_visible(False) # Hide mouse 
     
