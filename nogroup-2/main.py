@@ -19,7 +19,7 @@ FRAMERATE = 60
 play_img = pygame.image.load('images/menu/play.jpeg')
 options_img = pygame.image.load('images/menu/options.jpeg')
 quit_img = pygame.image.load('images/menu/quit.jpeg')
-background_img = pygame.image.load('images/menu/background.png')
+background_img = pygame.image.load('images/menu/background.jpeg')
 
 comic1_img = pygame.image.load('images/comic1.jpeg')
 comic2_img = pygame.image.load('images/comic2.jpeg')
@@ -103,9 +103,11 @@ while True:
     
     # Screen flags here for comic images 
     elif screen_flag == "comic_1":
+        pygame.display.set_caption("Bone Voyage") 
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, comic1_img) 
     
     elif screen_flag == "comic_2":
+        pygame.display.set_caption("Bone Voyage") 
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, comic2_img) 
 
 
@@ -114,7 +116,7 @@ while True:
     # Game takes mute in order to maintain sfx choices made earlier
     elif screen_flag == "cheat_sheet":
         eng.DrawStaticBackground(screen, WIDTH, HEIGHT, cheatsheet_img) 
-        pygame.display.set_caption("Cheat Sheet")
+        pygame.display.set_caption("Instructions")
         play_button = eng.DrawMenuButton(screen, WIDTH, HEIGHT, 5.3, play_img)
         
     elif screen_flag == "game":

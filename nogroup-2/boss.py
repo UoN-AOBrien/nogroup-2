@@ -32,8 +32,8 @@ bullet_img = pygame.image.load('images/game/player/bullet.png')
 starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
-
-
+victory1_img = pygame.image.load('images/game/victory1.jpeg')
+victory2_img = pygame.image.load('images/game/victory2.jpeg')
 
 
 def Boss(screen, mute):
@@ -56,14 +56,10 @@ def Boss(screen, mute):
     # Initialise screen
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     screen.fill(pygame.Color("White")) 
-    
-    
-    
-    
     pygame.display.flip()
     
     # Set screen title
-    pygame.display.set_caption("Game") 
+    pygame.display.set_caption("Bone Voyage") 
     
     pygame.mouse.set_visible(False) # Hide mouse 
     
@@ -121,30 +117,34 @@ def Boss(screen, mute):
     boss_life = 20
     
 
-    # init background
+    # Init background
     scroll_bg = [0, WIDTH]
     bg=[0, 0]
     for i in range(2):
         index = random.randint(0, len(backgrounds)-1)
         bg[i] = backgrounds[index]
     
-    
-    
     speed = 2
     
+    
+    # Pausing element added here 
+    # Theory for the pausing is taken from another person
+    # Source: https://stackoverflow.com/questions/30744237/how-to-create-a-pause-button-in-pygame
     pause = False
     game_running = True
     state = game_running
     while game_running:
-        
-        
         # Event loop
-        mouse_xpos, mouse_ypos = pygame.mouse.get_pos() # Get mouse location
+        # Get mouse location
+        mouse_xpos, mouse_ypos = pygame.mouse.get_pos() 
         left_click = False
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: # Window close event
+            # Window close event
+            if event.type == pygame.QUIT: 
                 eng.Shutdown()
-            if event.type == pygame.KEYDOWN: # Key down events
+            
+            # Key down events for escape button and pause button 
+            if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_ESCAPE:
                     game_running = False
                 if event.key == pygame.K_p:
@@ -152,11 +152,18 @@ def Boss(screen, mute):
                         state = game_running
                     elif state == game_running:
                         state = pause
-            if event.type == pygame.MOUSEBUTTONDOWN: # Mouse click down
+                        
+            # Mouse click down
+            if event.type == pygame.MOUSEBUTTONDOWN: 
                 if event.button == 1:
                     left_click = True
                     
+        # State and game running used for pausing screen
+        # If the game isn't paused...
         if state == game_running:
+         
+        # State and game running used for pausing screen
+        # If the game isn't paused...
             """ SCROLL BACKGROUND """
             for i in range(2):
                 scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], FRAMERATE, scroll_bg[i])
@@ -172,8 +179,10 @@ def Boss(screen, mute):
             # Calculates the total number of seconds at current point in time
             # Code is built from http://programarcadegames.com/python_examples/f.php?file=timer.py
             # Also calculates score based on time spent in game and number of kills
+            # Set offset for game timer
             total_seconds = (pygame.time.get_ticks() // 1000) - offset
-                
+             
+            # Seconds and kills combine to form total score shown to player
             seconds = total_seconds % 60
             if kills > 1 or kills == 1:
                 score = seconds + (kills*5)
@@ -182,7 +191,7 @@ def Boss(screen, mute):
             
             
             """ PLAYER MECHANICS """
-            # increment player frame
+            # Increment player frame
             player_loop += 1
             if player_loop >= FRAMERATE // (len(player_animations) * speed): # Sync player roll to background
                 player_loop = 0
@@ -196,14 +205,16 @@ def Boss(screen, mute):
                     pygame.mixer.Sound.play(spookyplayershoot_sound)
                 bullet_group.add(player.create_bullet(bullet_img))
             
-            # If player life is 0 game stops
+             # If player life is 0 game stops
+            # Set game over background and updates with wait time
+            # Loop stops and game exits
             if player.life == 0:
                 if mute == False:
                     pygame.mixer.Sound.play(gameover_sound)
-                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) # Set game over background
-                pygame.display.flip() # update display
-                pygame.time.wait(5000) # wait for 5 seconds i.e. display game over screen
-                game_running = False #if player is hit by mob, loop stops and game exits
+                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) 
+                pygame.display.flip() 
+                pygame.time.wait(5000) 
+                game_running = False 
             
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
@@ -211,15 +222,16 @@ def Boss(screen, mute):
             bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
             for bullet in bullet_groups:
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
-                #This loop adds a mob if a mob dies
+                # This loop adds a mob if a mob dies
                 for hit in mob_hit: 
                     if mute == False:    
                         pygame.mixer.Sound.play(mobgothit_sound)
                     m = eng.Mob(mob_animations, level)
                     mob.add(m)
                     kills += 1
-    
-            mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) #didnt work when I added it to the above loop for some reason so making a separate loop for now for player bullet.
+            
+            # Separate loop for now for player bullet
+            mob_player_hit = pygame.sprite.groupcollide(mob, bullet_group, True, True) 
             # This loop adds a mob if a mob dies
             for hit in mob_player_hit:
                 if mute == False:    
@@ -250,7 +262,7 @@ def Boss(screen, mute):
                 
                 
             """ BOOSTS """
-            # If the player is touches heart gains a life
+            # If the player touches heart boost gains a life
             # Heart is removed to prevent too many collisions and gaining of multiple lives
             life_up = pygame.sprite.spritecollide(player, heart, True) 
             if life_up:
@@ -267,8 +279,8 @@ def Boss(screen, mute):
                     h.rect.x = random.randrange(WIDTH + 100, WIDTH + 500)  # spawn in a random place to the right of the screen
                     heart.add(h)
             
-            # If the player is touches bullet, cause bullets to shoot in 4 directions
-            # Bullet is removed to prevent too many collisions and gaining of multiple, multiple bullets
+            # If the player touches starbullet, cause bullets to shoot in 4 directions
+            # Bullet boost is removed to prevent too many collisions and gaining of multiple, multiple bullets
             bullet_up = pygame.sprite.spritecollide(player, starbullet, True)
             if bullet_up:
                 if mute == False:
@@ -325,6 +337,9 @@ def Boss(screen, mute):
             lives = myfont.render("Lives: " + str_lives, False, (153, 0, 153))
             score_total = myfont.render("Score: " + str_score, False, (153, 0, 153))
             
+            screen.blit(lives,(0,20))
+            screen.blit(score_total,(0,80))
+            
             
             # Draws boss life bar at the bottom of the screen 
             pygame.draw.rect(screen, BLACK ,(50, 800, 800, 50))
@@ -333,23 +348,18 @@ def Boss(screen, mute):
             
             
             
-        
             
-            
-            
-            
-            
-            
-            
-            
-          
-            screen.blit(lives,(0,20))
-            screen.blit(score_total,(0,80))
-       
+            if boss_life == 0:
+                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory1_img)
+                pygame.time.wait(2000) 
+                eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory2_img)
+                
+
         # If the game is paused the instructions are shown on screen
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))
-
+       
+    
         # Add to frame count for the timer
         clock.tick(FRAMERATE)
         pygame.display.flip()
