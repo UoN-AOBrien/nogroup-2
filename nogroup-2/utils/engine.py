@@ -129,8 +129,10 @@ class Mob(pygame.sprite.Sprite):
             self.rect.x = random.randrange(screen_width + 100, screen_width + 500)  
             self.speedx = random.randrange(5, 10) * self.level
 
-
-class Boss(pygame.sprite.Sprite): #spawn enemies
+# Boss class
+# Source used to show static images 
+# Source: https://stackoverflow.com/questions/47082209/pygame-loading-images-in-sprites
+class Boss(pygame.sprite.Sprite):
     def __init__(self, HEIGHT, WIDTH):
         self.HEIGHT = HEIGHT
         self.WIDTH = WIDTH
@@ -139,7 +141,7 @@ class Boss(pygame.sprite.Sprite): #spawn enemies
         self.sizey = 350
         self.image = pygame.Surface((self.sizex,self.sizey))
 
-
+        
         boss_img = pygame.image.load('images/game/mob/cerberwoof.png').convert_alpha()
         self.image = boss_img
         
@@ -154,7 +156,7 @@ class Boss(pygame.sprite.Sprite): #spawn enemies
     def create_boss_bullet(self, boss):
         return Boss_Bullet(boss.rect.x, boss.rect.y, boss.sizey)
 
-
+# Boss Bullet class
 class Boss_Bullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y,sizey):
         super().__init__()
