@@ -334,7 +334,7 @@ def Game(screen, mute):
             lives = player.life
             
             # If time is high enough boss screen will be shown
-            if level == 5:
+            if level == 1:
                 boss.Boss(screen, mute, score, level, lives)
                 
        
