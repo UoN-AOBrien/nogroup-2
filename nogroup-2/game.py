@@ -37,8 +37,8 @@ heart_img = pygame.image.load('images/game/boosts/heart1.png')
 def Game(screen, mute):
     global backgrounds_all, backgrounds   
     
-    
-    # Souce: 
+
+    # Source: https://www.soundsnap.com/search/audio
     gameover_sound = pygame.mixer.Sound("sound/music for game/gameover.wav") 
     lifeup_sound = pygame.mixer.Sound("sound/music for game/lifeupsound.wav") 
     mobgothit_sound = pygame.mixer.Sound("sound/music for game/mobgothit.wav") 
@@ -216,6 +216,7 @@ def Game(screen, mute):
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
             # Bullet needs to run into mob and vice versa so 2 Trues
+            # inspiration drawn from https://www.youtube.com/watch?v=1_H7InPMjaY&t=64s 8:00
             bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
             for bullet in bullet_groups:
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)

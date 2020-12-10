@@ -48,8 +48,8 @@ def DrawScrollBackground(window, width, speed, image, fps, x):
 """ GLOBAL VAR HARDCODED - REPLACE """
 screen_width = 1600
 screen_height = 900
-
-# Player class 
+#code is mainly reused here
+# Player class
 class Player(pygame.sprite.Sprite):
     def __init__(self, image):
         super().__init__()
@@ -130,7 +130,7 @@ class Mob(pygame.sprite.Sprite):
             self.speedx = random.randrange(5, 10) * self.level
 
 
-class Boss(pygame.sprite.Sprite): #spawn enemies
+class Boss(pygame.sprite.Sprite): #spawn boss
     def __init__(self, HEIGHT, WIDTH):
         self.HEIGHT = HEIGHT
         self.WIDTH = WIDTH

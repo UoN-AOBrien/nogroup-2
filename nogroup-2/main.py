@@ -52,7 +52,7 @@ bg_on = True
 mute = False
 screen_flag = "main_menu"
 
-# Loads music 
+# Loads music (music made by Harri)
 pygame.mixer.music.load('sound/longspookydogmusic.mp3')
 pygame.mixer.music.play(-1)
 

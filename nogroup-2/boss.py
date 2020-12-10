@@ -227,6 +227,7 @@ def Boss(screen, mute, score, level, lives):
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
             # Bullet needs to run into mob and vice versa so 2 Trues
+            #inspiration drawn from https://www.youtube.com/watch?v=1_H7InPMjaY&t=64s 8:00
             bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
             for bullet in bullet_groups:
                 mob_hit = pygame.sprite.groupcollide(mob, bullet, True, True)
@@ -272,6 +273,7 @@ def Boss(screen, mute, score, level, lives):
 
             """BOSS"""
             # Boss bullet timing (random intervals within a tolerance of 100ms)
+            #inspiration taken from https://stackoverflow.com/questions/48356638/python-how-to-delay-bullet-shooting
             current_time = pygame.time.get_ticks()
             if current_time - previous_time > random.randrange(1000, 2500):
                 previous_time = current_time

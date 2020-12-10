@@ -10,7 +10,7 @@ import pygame, sys
 import utils.alex as FuncAlex
 import utils.hongyuan as FuncHongyuan
 import utils.peggy as FuncPeggy
-
+#inspiration taken from https://www.youtube.com/watch?v=JmpA7TU_0Ms
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         return UpBullet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]) #return bullet and has the position of wherever the mouse is
 
 
-
+##Inspiration taken from https://www.youtube.com/watch?v=-5GNbL33hz0&t=328s @ 3:00
 #
 #class Bullet(pygame.sprite.Sprite):
 #    def __init__(self,pos_x,pos_y):
