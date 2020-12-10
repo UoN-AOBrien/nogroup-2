@@ -328,7 +328,7 @@ def Game(screen, mute):
             screen.blit(score_total,(0,80))
             
             # If score is high enough boss screen will be shown
-            if seconds > 120:
+            if seconds > 160:
                 boss.Boss(screen, mute)
                 
        
