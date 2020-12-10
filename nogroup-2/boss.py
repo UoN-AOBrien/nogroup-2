@@ -27,7 +27,7 @@ player_animations = [pygame.image.load('images/game/player/skull' + str(i) + ".p
 mob_animations = [pygame.image.load('images/game/mob/woof' + str(i) + ".png") for i in range (1, 3)]
 heart_animations = [pygame.image.load('images/game/boosts/heart' + str(i) + ".png") for i in range (1, 3)]
 
-cheatsheet_img = pygame.image.load('images/cheatsheet.png')
+cheatsheet_img = pygame.image.load('images/boss_instructions.jpeg')
 bullet_img = pygame.image.load('images/game/player/bullet.png')
 starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
