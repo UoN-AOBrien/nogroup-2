@@ -62,7 +62,7 @@ def Game(screen, mute):
     pygame.display.flip()
     
     # Set screen title
-    pygame.display.set_caption("Game") 
+    pygame.display.set_caption("Bone Voyage") 
     
     pygame.mouse.set_visible(False) # Hide mouse 
     
@@ -326,9 +326,9 @@ def Game(screen, mute):
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
             
-            #if score is high enough boss screen will be shown
-            if score > 50:
-                boss.Boss(screen, mute)
+            # If time is high enough boss screen will be shown
+            if seconds > 120:
+                boss.Boss(screen, mute, score, level)
                 
        
         # If the game is paused the instructions are shown on screen

@@ -36,7 +36,7 @@ victory1_img = pygame.image.load('images/game/victory1.jpeg')
 victory2_img = pygame.image.load('images/game/victory2.jpeg')
 
 
-def Boss(screen, mute):
+def Boss(screen, mute, score, level):
     global backgrounds_all, backgrounds   
     
     # We do not own sfx sounds 
@@ -112,9 +112,8 @@ def Boss(screen, mute):
         starbullet.add(s)  
     
     # Score and a separate variable for kill counter
-    score = 0
+    score_init = score
     kills = 0
-    level = 1
     
     boss_life = 20
     
@@ -187,9 +186,9 @@ def Boss(screen, mute):
             # Seconds and kills combine to form total score shown to player
             seconds = total_seconds % 60
             if kills > 1 or kills == 1:
-                score = seconds + (kills*5)
+                score = seconds + (kills*5) + score_init
             else:
-                score = seconds
+                score = seconds + score_init
             
             
             """ PLAYER MECHANICS """
@@ -217,6 +216,7 @@ def Boss(screen, mute):
                 pygame.display.flip() 
                 pygame.time.wait(5000) 
                 game_running = False 
+                eng.Shutdown()
             
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
