@@ -16,6 +16,7 @@ HEIGHT = 600
 FRAMERATE = 60
 
 # Load menu assets
+# All images were drawn by Peggy
 play_img = pygame.image.load('images/menu/play.jpeg')
 options_img = pygame.image.load('images/menu/options.jpeg')
 quit_img = pygame.image.load('images/menu/quit.jpeg')

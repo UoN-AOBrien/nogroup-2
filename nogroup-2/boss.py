@@ -17,6 +17,7 @@ GREEN = (0, 255, 0)
 BLACK = (0,0,0)
 
 # Load assests
+# All images were drawn by Peggy
 backgrounds_all = [[pygame.image.load('images/game/background/garden (low).jpeg')],
                    [pygame.image.load('images/game/background/graveyard (high).jpeg')]]
 backgrounds = backgrounds_all[1]

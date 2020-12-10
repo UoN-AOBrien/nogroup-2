@@ -16,6 +16,7 @@ HEIGHT = 900
 FRAMERATE = 60
 
 # Load assests
+# All images were drawn by Peggy
 backgrounds_all = [[pygame.image.load('images/game/background/garden (low).jpeg')],
                    [pygame.image.load('images/game/background/graveyard (high).jpeg')]]
 backgrounds = backgrounds_all[1]
@@ -329,7 +330,7 @@ def Game(screen, mute):
             
             lives = player.life
             
-            # If time is high enough boss screen will be shown
+            # If level is 5 boss screen will be shown
             if level == 5:
                 game_running = boss.Boss(screen, mute, score, level, lives)
                 
