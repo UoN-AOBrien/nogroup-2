@@ -137,6 +137,9 @@ class Boss(pygame.sprite.Sprite): #spawn enemies
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((30,40))
         self.image.fill((0,255,0))
+
+        
+        
         self.rect = self.image.get_rect()
         self.rect.y = (HEIGHT//2)#spanwns them on x axis outside of screen to the right
         self.rect.x = WIDTH - 25
@@ -151,7 +154,10 @@ class Boss_Bullet(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
         self.image = pygame.Surface((50, 10))
-        self.image.fill((255,0,0))#colour
+        boss_bullet_img = pygame.image.load('images/game/mob/woof1.png').convert_alpha()
+        self.image = boss_bullet_img
+        
+        self.image = pygame.transform.scale(boss_bullet_img, (100, 100))
         self.rect = self.image.get_rect(center = (pos_x,pos_y))
 
     def update(self):
