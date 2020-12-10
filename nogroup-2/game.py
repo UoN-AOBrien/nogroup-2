@@ -243,7 +243,8 @@ def Game(screen, mute):
                 kills += 1
 
 
-            # If the player is hit by a mob the player loses a life 
+
+            # If the player is hit by a mob the player loses a life
             # Mob is removed to prevent too many collisions and loss of multiple lives
             player_hit = pygame.sprite.spritecollide(player, mob, True) 
             if player_hit:

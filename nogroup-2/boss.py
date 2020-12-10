@@ -260,6 +260,15 @@ def Boss(screen, mute, score, level, lives):
                 m = eng.Mob(mob_animations, level)
                 mob.add(m)
 
+            player_hit_by_boss = pygame.sprite.spritecollide(player, boss_bullet_group, True)
+            if player_hit_by_boss:
+                if mute == False:
+                    pygame.mixer.Sound.play(playergothit_sound)
+                player.life -= 1
+
+            boss_hit_by_player = pygame.sprite.spritecollide(boss, bullet_group,True)
+            if boss_hit_by_player:
+               boss_life -= 1
 
             """BOSS"""
             current_time = pygame.time.get_ticks()
