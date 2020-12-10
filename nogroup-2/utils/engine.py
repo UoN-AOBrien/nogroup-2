@@ -135,16 +135,16 @@ class Boss(pygame.sprite.Sprite): #spawn enemies
         self.HEIGHT = HEIGHT
         self.WIDTH = WIDTH
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((250,300))
+        self.image = pygame.Surface((250,450))
         #self.image.fill((0,255,0))
 
         boss_img = pygame.image.load('images/game/mob/cerberwoof.png').convert_alpha()
         self.image = boss_img
         
-        self.image = pygame.transform.scale(boss_img, (250, 300))
+        self.image = pygame.transform.scale(boss_img, (250, 450))
         self.rect = self.image.get_rect()
         
-        self.rect.y = (HEIGHT/2) - 150#spanwns them on x axis outside of screen to the right
+        self.rect.y = (HEIGHT/2) - 225#spanwns them on x axis outside of screen to the right
         self.rect.x = WIDTH - 250
         self.speedy = 4
 
