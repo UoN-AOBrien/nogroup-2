@@ -324,9 +324,11 @@ def Game(screen, mute):
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
             
+            lives = player.life
+            
             # If time is high enough boss screen will be shown
-            if seconds > 120:
-                boss.Boss(screen, mute, score, level)
+            if seconds > 10:
+                boss.Boss(screen, mute, score, level, lives)
                 
        
         # If the game is paused the instructions are shown on screen
