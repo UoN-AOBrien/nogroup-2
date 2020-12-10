@@ -36,7 +36,7 @@ victory1_img = pygame.image.load('images/game/victory1.jpeg')
 victory2_img = pygame.image.load('images/game/victory2.jpeg')
 
 
-def Boss(screen, mute, score, level):
+def Boss(screen, mute, score, level, lives):
     global backgrounds_all, backgrounds   
     
     # We do not own sfx sounds 
@@ -116,7 +116,8 @@ def Boss(screen, mute, score, level):
     kills = 0
     
     boss_life = 20
-    
+    lives_init = lives
+    player.life = lives_init
 
     # Init background
     scroll_bg = [0, WIDTH]
