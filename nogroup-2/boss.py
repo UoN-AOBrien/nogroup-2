@@ -222,6 +222,7 @@ def Boss(screen, mute, score, level, lives):
                 pygame.display.flip() 
                 pygame.time.wait(5000) 
                 game_running = False 
+                eng.Shutdown()
             
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
