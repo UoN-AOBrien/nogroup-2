@@ -73,6 +73,9 @@ def Boss(screen, mute):
     #Player bullet group
     bullet_group = pygame.sprite.Group()
 
+    # boss bullet group
+    boss_bullet_group = pygame.sprite.Group()
+
     # Bullet group one group for each bullet direction
     rightbullet_group = pygame.sprite.Group()
     leftbullet_group = pygame.sprite.Group()

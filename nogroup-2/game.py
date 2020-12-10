@@ -82,9 +82,7 @@ def Game(screen, mute):
     downbullet_group = pygame.sprite.Group()
     upbullet_group = pygame.sprite.Group()
 
-    #boss bullet group
-    boss_bullet_group = pygame.sprite.Group()
-    
+
     # Mob group
     # With adjustable number of mobs using mob_number
     mob = pygame.sprite.Group()
