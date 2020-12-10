@@ -32,9 +32,8 @@ bullet_img = pygame.image.load('images/game/player/bullet.png')
 starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
-victory1_ img = pygame.image.load('images/game/victory1.jpeg')
-victory2_ img = pygame.image.load('images/game/victory2.jpeg')
-
+victory1_img = pygame.image.load('images/game/victory1.jpeg')
+victory2_img = pygame.image.load('images/game/victory2.jpeg')
 
 
 def Boss(screen, mute):
@@ -151,6 +150,10 @@ def Boss(screen, mute):
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 if event.button == 1:
                     left_click = True
+                    
+        # State and game running used for pausing screen
+        # If the game isn't paused...
+        if state == game_running:
          
         # State and game running used for pausing screen
         # If the game isn't paused...
@@ -206,7 +209,7 @@ def Boss(screen, mute):
                 pygame.time.wait(5000) 
                 game_running = False 
             
-             """ COLLISIONS """
+            """ COLLISIONS """
             # Check to see if a bullet hits a mob
             # Bullet needs to run into mob and vice versa so 2 Trues
             bullet_groups = [leftbullet_group, rightbullet_group, upbullet_group, downbullet_group]
@@ -243,7 +246,7 @@ def Boss(screen, mute):
                 mob.add(m)
                 
                 
-             """ BOOSTS """
+            """ BOOSTS """
             # If the player touches heart boost gains a life
             # Heart is removed to prevent too many collisions and gaining of multiple lives
             life_up = pygame.sprite.spritecollide(player, heart, True) 
@@ -331,12 +334,11 @@ def Boss(screen, mute):
                 eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory2_img)
                 
 
-            
-       
         # If the game is paused the instructions are shown on screen
         elif state == pause:
             screen.blit(cheatsheet_img, ((WIDTH/2 - 400),(HEIGHT/2 - 300)))
-
+       
+    
         # Add to frame count for the timer
         clock.tick(FRAMERATE)
         pygame.display.flip()
