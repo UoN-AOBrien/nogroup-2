@@ -165,11 +165,16 @@ def Boss(screen, mute, score, level):
          
         # State and game running used for pausing screen
         # If the game isn't paused...
+        
             """ SCROLL BACKGROUND """
             for i in range(2):
                 scroll_bg[i] = eng.DrawScrollBackground(screen, WIDTH, speed, bg[i], FRAMERATE, scroll_bg[i])
             
-            # reset loop
+            # reset background loop
+            # This code is overcomplicated for current use
+            # It was intended to take n backgrounds
+            # and display them in a random sequence
+            # Currently it only used one background on an infinite loop
             if scroll_bg[1] < 0:
                 scroll_bg = [0, WIDTH]
                 bg[0] = bg[1]
