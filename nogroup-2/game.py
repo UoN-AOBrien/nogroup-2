@@ -34,11 +34,6 @@ starbullet_img = pygame.image.load('images/game/boosts/starbullet.png')
 heart_img = pygame.image.load('images/game/boosts/heart1.png')
 
 
-
-
-
-
-
 def Game(screen, mute):
     global backgrounds_all, backgrounds   
     
@@ -335,7 +330,7 @@ def Game(screen, mute):
             
             # If time is high enough boss screen will be shown
             if level == 5:
-                boss.Boss(screen, mute, score, level, lives)
+                game_running = boss.Boss(screen, mute, score, level, lives)
                 
        
         # If the game is paused the instructions are shown on screen
