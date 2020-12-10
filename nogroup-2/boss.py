@@ -221,8 +221,8 @@ def Boss(screen, mute, score, level, lives):
                 eng.DrawStaticBackground(screen, WIDTH, HEIGHT, gameover_img) 
                 pygame.display.flip() 
                 pygame.time.wait(5000) 
-                game_running = False 
-                eng.Shutdown()
+                return False 
+
             
             """ COLLISIONS """
             # Check to see if a bullet hits a mob
@@ -273,7 +273,7 @@ def Boss(screen, mute, score, level, lives):
             """BOSS"""
             # Boss bullet timing (random intervals within a tolerance of 100ms)
             current_time = pygame.time.get_ticks()
-            if current_time - previous_time > random.randrange(600, 1000):
+            if current_time - previous_time > random.randrange(500, 1500):
                 previous_time = current_time
                 boss_bullet_group.add(boss.create_boss_bullet(boss))
                 current_time = 0
@@ -366,9 +366,12 @@ def Boss(screen, mute, score, level, lives):
             
             if boss_life == 0:
                 eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory1_img)
-                pygame.time.wait(2000) 
+                pygame.display.flip()
+                pygame.time.wait(5000) 
                 eng.DrawStaticBackground(screen, WIDTH, HEIGHT, victory2_img)
-                pygame.time.wait(2000) 
+                pygame.display.flip()
+                pygame.time.wait(5000)
+                return False
                 
 
         # If the game is paused the instructions are shown on screen
