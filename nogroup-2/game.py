@@ -326,7 +326,7 @@ def Game(screen, mute):
             
             # If time is high enough boss screen will be shown
             if seconds > 120:
-                boss.Boss(screen, mute)
+                boss.Boss(screen, mute, score, level)
                 
        
         # If the game is paused the instructions are shown on screen
