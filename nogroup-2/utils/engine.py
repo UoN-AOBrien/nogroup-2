@@ -161,12 +161,13 @@ class Boss_Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface((50, 10))
         boss_bullet_img = pygame.image.load('images/game/mob/bosswoof.png').convert_alpha()
         self.image = boss_bullet_img
-        
+        self.y_speed = random.randrange(-2, 2)
         self.image = pygame.transform.scale(boss_bullet_img, (100, 100))
         self.rect = self.image.get_rect(center = (pos_x,pos_y + (sizey/2)))
 
     def update(self):
         self.rect.x -= 10 #shoots along x axis left
+        self.rect.y += self.y_speed
 
         if self.rect.x < -100: #if bullet goes too far to the left
             self.kill() #bullet will destroy itself to save memory and improve performance

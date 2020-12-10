@@ -115,7 +115,7 @@ def Boss(screen, mute, score, level, lives):
     score_init = score
     kills = 0
     
-    boss_life = 20
+    boss_life = 100
     lives_init = lives
     player.life = lives_init
 
@@ -273,7 +273,7 @@ def Boss(screen, mute, score, level, lives):
             """BOSS"""
             # Boss bullet timing (random intervals within a tolerance of 100ms)
             current_time = pygame.time.get_ticks()
-            if current_time - previous_time > random.randrange(500, 1500):
+            if current_time - previous_time > random.randrange(1000, 2500):
                 previous_time = current_time
                 boss_bullet_group.add(boss.create_boss_bullet(boss))
                 current_time = 0
@@ -361,7 +361,7 @@ def Boss(screen, mute, score, level, lives):
             
             # Draws boss life bar at the bottom of the screen 
             pygame.draw.rect(screen, BLACK ,(50, 800, 800, 50))
-            pygame.draw.rect(screen, GREEN, (50, 800, (40*(boss_life)), 50))
+            pygame.draw.rect(screen, GREEN, (50, 800, (8*(boss_life)), 50))
             
             
             if boss_life == 0:
