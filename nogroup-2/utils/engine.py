@@ -135,33 +135,35 @@ class Boss(pygame.sprite.Sprite): #spawn enemies
         self.HEIGHT = HEIGHT
         self.WIDTH = WIDTH
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((150,350))
+        self.sizex = 250
+        self.sizey = 450
+        self.image = pygame.Surface((self.sizex,self.sizey))
         #self.image.fill((0,255,0))
 
         boss_img = pygame.image.load('images/game/mob/cerberwoof.png').convert_alpha()
         self.image = boss_img
         
-        self.image = pygame.transform.scale(boss_img, (150, 350))
+        self.image = pygame.transform.scale(boss_img, (250, 450))
         self.rect = self.image.get_rect()
         
-        self.rect.y = (HEIGHT/2) - 175#spanwns them on x axis outside of screen to the right
-        self.rect.x = WIDTH - 150
+        self.rect.y = (HEIGHT/2) - 225#spanwns them on x axis outside of screen to the right
+        self.rect.x = WIDTH - 250
         self.speedy = 4
 
 
     def create_boss_bullet(self, boss):
-        return Boss_Bullet(boss.rect.x, boss.rect.y)
+        return Boss_Bullet(boss.rect.x, boss.rect.y, boss.sizey)
 
 
 class Boss_Bullet(pygame.sprite.Sprite):
-    def __init__(self,pos_x,pos_y):
+    def __init__(self,pos_x,pos_y,sizey):
         super().__init__()
         self.image = pygame.Surface((50, 10))
-        boss_bullet_img = pygame.image.load('images/game/mob/bossbullet.png').convert_alpha()
+        boss_bullet_img = pygame.image.load('images/game/mob/woof1.png').convert_alpha()
         self.image = boss_bullet_img
         
         self.image = pygame.transform.scale(boss_bullet_img, (100, 100))
-        self.rect = self.image.get_rect(center = (pos_x,pos_y))
+        self.rect = self.image.get_rect(center = (pos_x,pos_y + (sizey/2)))
 
     def update(self):
         self.rect.x -= 10 #shoots along x axis left
