@@ -1,4 +1,4 @@
-import pygame, sys, random
+import pygame, sys, random, time, threading
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -56,11 +56,6 @@ class Boss(pygame.sprite.Sprite): #spawn enemies
         self.rect.x = screen_width - 25
         self.speedy = 4
 
-    def update(self):
-        self.rect.y += self.speedy #mobs go in left direction
-
-        if self.rect.y == 0 or self.rect.y == screen_height:
-            self.speedy = self.speedy * -1 #changes direction of y speed
 
     def create_boss_bullet(self):
         return Boss_Bullet(boss.rect.x, boss.rect.y) #
@@ -87,7 +82,7 @@ screen_width = 800
 screen_height = 800
 screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.mouse.set_visible(False) ##hides mouse
-
+previous_time = pygame.time.get_ticks()
 #player group
 player = Player()
 player_group = pygame.sprite.Group()
@@ -136,11 +131,15 @@ while running:
     hits = pygame.sprite.groupcollide(boss_group, bullet_group, True, True)
 
     screen.fill((30,30,30))
-    dt = clock.tick() #dt measure in ms, 250ms = 0.25s
-    time_elapsed += dt
-    if time_elapsed > 10:
+
+
+    current_time = pygame.time.get_ticks()
+    if current_time - previous_time > 500:
+        previous_time = current_time
         boss_bullet_group.add(boss.create_boss_bullet())
-        time_elapsed = 0
+        current_time = 0
+
+
 
 
     #mob.update()

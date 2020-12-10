@@ -82,6 +82,8 @@ def Game(screen, mute):
     downbullet_group = pygame.sprite.Group()
     upbullet_group = pygame.sprite.Group()
 
+    #boss bullet group
+    boss_bullet_group = pygame.sprite.Group()
 
     # Mob group
     # With adjustable number of mobs using mob_number
@@ -326,7 +328,7 @@ def Game(screen, mute):
             
             # If time is high enough boss screen will be shown
             if seconds > 120:
-                boss.Boss(screen, mute)
+                boss.Boss(screen, mute, score, level)
                 
        
         # If the game is paused the instructions are shown on screen
