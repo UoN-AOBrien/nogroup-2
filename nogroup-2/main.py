@@ -61,10 +61,6 @@ pygame.mixer.music.play(-1)
 menu_sound = pygame.mixer.Sound("sound/music for game/spookymenubuttonpress.wav")   
 
 
-
-
-    
-
 # Application Loop
 while True:
     # Set screen mode

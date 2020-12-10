@@ -81,6 +81,9 @@ def Game(screen, mute):
     leftbullet_group = pygame.sprite.Group()
     downbullet_group = pygame.sprite.Group()
     upbullet_group = pygame.sprite.Group()
+
+    #boss bullet group
+    boss_bullet_group = pygame.sprite.Group()
     
     # Mob group
     # With adjustable number of mobs using mob_number
@@ -234,7 +237,8 @@ def Game(screen, mute):
                 m = eng.Mob(mob_animations, level) 
                 mob.add(m)
                 kills += 1
-            
+
+
             # If the player is hit by a mob the player loses a life 
             # Mob is removed to prevent too many collisions and loss of multiple lives
             player_hit = pygame.sprite.spritecollide(player, mob, True) 
@@ -291,7 +295,7 @@ def Game(screen, mute):
             player_group.update(player_animations[player_frame])
             heart.update()
             starbullet.update()
-        
+
             mob.draw(screen)
             heart.draw(screen)
             rightbullet_group.draw(screen)
@@ -306,9 +310,10 @@ def Game(screen, mute):
             leftbullet_group.update()
             downbullet_group.update()
             upbullet_group.update()
-    
-                
-        
+
+
+
+
             # Section to write score and lives to screen 
             myfont = pygame.font.SysFont(pygame.font.get_default_font(), 50)
             str_lives = str(player.life)
@@ -321,7 +326,7 @@ def Game(screen, mute):
             screen.blit(lives,(0,20))
             screen.blit(score_total,(0,80))
             
-            # If score is high enough boss screen will be shown
+            #if score is high enough boss screen will be shown
             if score > 50:
                 boss.Boss(screen, mute)
                 

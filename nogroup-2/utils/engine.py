@@ -121,21 +121,35 @@ class Mob(pygame.sprite.Sprite): #spawn enemies
             self.speedx = random.randrange(5, 10) * self.level# randomise their speed
 
 
-class Boss(pygame.sprite.Sprite):  # spawn boss
-    def __init__(self):
+class Boss(pygame.sprite.Sprite): #spawn enemies
+    def __init__(self, HEIGHT, WIDTH):
+        self.HEIGHT = HEIGHT
+        self.WIDTH = WIDTH
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30, 40))
-        self.image.fill((0, 255, 0))
+        self.image = pygame.Surface((30,40))
+        self.image.fill((0,255,0))
         self.rect = self.image.get_rect()
-        self.rect.y = (screen_height // 2)  # spawns in center of screen
-        self.rect.x = screen_width - 25 #spawns just on the left of the edge
+        self.rect.y = (HEIGHT//2)#spanwns them on x axis outside of screen to the right
+        self.rect.x = WIDTH - 25
         self.speedy = 4
 
-    def update(self):
-        self.rect.y += self.speedy  # mobs go in left direction
 
-        if self.rect.y == 0 or self.rect.y == screen_height:
-            self.speedy = self.speedy * -1  # changes direction of y speed
+    def create_boss_bullet(self, boss):
+        return Boss_Bullet(boss.rect.x, boss.rect.y)
+
+
+class Boss_Bullet(pygame.sprite.Sprite):
+    def __init__(self,pos_x,pos_y):
+        super().__init__()
+        self.image = pygame.Surface((50, 10))
+        self.image.fill((255,0,0))#colour
+        self.rect = self.image.get_rect(center = (pos_x,pos_y))
+
+    def update(self):
+        self.rect.x -= 10 #shoots along x axis left
+
+        if self.rect.x < -100: #if bullet goes too far to the left
+            self.kill() #bullet will destroy itself to save memory and improve performance
 
 
 #%% Peggy's code

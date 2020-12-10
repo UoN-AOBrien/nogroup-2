@@ -90,6 +90,13 @@ def Boss(screen, mute):
     for i in range(mob_number):
         m = eng.Mob(mob_animations, 1)
         mob.add(m)
+
+    # Boss Group
+    boss = eng.Boss(HEIGHT, WIDTH)
+    boss_group = pygame.sprite.Group()
+    boss_group.add(boss)
+    time_elapsed = 0
+    clock = pygame.time.Clock()
         
     # Heart group
     # With adjustable number of hearts
@@ -232,6 +239,14 @@ def Boss(screen, mute):
                 mob.remove(m)
                 m = eng.Mob(mob_animations, level)
                 mob.add(m)
+
+            """BOSS"""
+            dt = clock.tick()  # dt measure in ms, 250ms = 0.25s, shoot rate for boss bullets
+            time_elapsed += dt
+            # can do a loop here, if boss life >0 or something maybe
+            if time_elapsed > 750:
+                boss_bullet_group.add(boss.create_boss_bullet(boss))
+                time_elapsed = 0
                 
                 
             """ BOOSTS """
@@ -293,6 +308,12 @@ def Boss(screen, mute):
             leftbullet_group.update()
             downbullet_group.update()
             upbullet_group.update()
+
+            # boss stuff
+
+            boss_bullet_group.update()
+            boss_bullet_group.draw(screen)
+            boss_group.draw(screen)
     
                 
         
